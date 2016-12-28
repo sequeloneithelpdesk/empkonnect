@@ -1,0 +1,41 @@
+.leave_ul{
+
+	list-style:none;
+	padding-left: 0px;
+	margin: 0px;
+
+}
+.leave_ul li{
+	
+	display:inline;
+
+}
+.leave_ul li a{
+	
+	color:none !importent;
+
+}
+.leave_ul li span{
+	font-size:14px ;
+	color:#333 ;
+	font-weight: 700;
+}
+
+.active{
+	display:block;
+}
+
+.inactive{
+	display:none;
+}
+.tab1_col{
+	border-bottom: 2px solid #5b9bd1;
+}
+
+#tab_1 {
+margin-top:20px;
+}
+#tab_2{
+margin-top:20px;
+}
+

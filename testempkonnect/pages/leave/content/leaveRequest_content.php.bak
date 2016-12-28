@@ -1,0 +1,382 @@
+<div class="page-content-wrapper" xmlns="http://www.w3.org/1999/html">
+    <div class="page-content cus-light-grey">
+
+        <!-- BEGIN PAGE CONTENT-->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="tabbable tabbable-custom tabbable-noborder tabbable-reversed">
+
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="tab_0">
+                            <div class="portlet box blue">
+                                <div class="portlet-title">
+                                    
+                                    <div class="caption">
+                                        <i class="fa fa-gift"></i>Apply For Leave
+                                    </div>
+                                    <div class="tools">
+                                        <a href="javascript:;" class="collapse">
+                                        </a>
+                                        <a href="#portlet-config" data-toggle="modal" class="config">
+                                        </a>
+                                        <a href="javascript:;" class="reload">
+                                        </a>
+                                        <a href="javascript:;" class="remove">
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="portlet-body form">
+                                    <!-- BEGIN FORM-->
+                                    <form action="#" class="form-horizontal" id="leaveForm">
+                                    <input type="hidden" name="empcode" id="empcode" value="<?php echo $code;?>">
+                                        <div class="form-body" >
+                                        <div class="col-md-8">
+                                            
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">For Date</label>
+                                                <div class="col-md-5">
+                                                    <input type="text" class="form-control" name="fromDate" id="fromDate" placeholder="dd/mm/yy" onchange="getAppliedDays();">
+                                                </div> 
+                                            </div>
+
+                                            <div class="form-group" id="showforD" style="display:none">
+                                                <label class="col-md-3 control-label">
+                                                    Mark this as Half day
+                                                </label>
+                                                <div class="input-group col-md-5">
+                                                    <div class="icheck-inline">
+                                                        <label>
+                                                        <input type="radio" name="radio1" id="radio1" value="1FH" onclick="makehalf();" class="icheck"> First Half</label>
+                                                        <label>
+                                                        <input type="radio" name="radio1" id="2fh" class="icheck" value="2FH" onclick="makehalf();"> Second half </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                 <div  id="multipleDate">
+                                                    <label class="col-md-3 control-label">To</label>
+                                                    <div class="col-md-5">
+                                                    <input type="text" class="form-control" name="toDate" id="toDate" placeholder="dd/mm/yy"
+                                                    onchange="getToDate();" disabled>
+                                                        
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="form-group" id="halfshow" style="display:none">
+                                                <label class="col-md-3 control-label">
+                                                        Mark this as Half day
+                                                </label>
+                                                <div class="input-group col-md-5">
+                                                    <div class="icheck-inline">
+                                                        <label>
+                                                        <input type="radio" name="radio2"  class="icheck" id="1th" onclick="maketohalf();"> First Half</label>
+                                                        <label>
+                                                        <input type="radio" name="radio2" class="icheck" id="2th" onclick="maketohalf();"> Second half </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">
+                                                       Leave Request For
+                                                </label>
+                                                <div class="input-group col-md-5">
+                                                <input type="hidden" name="leaveFor" id="leaveFor" value="<?php echo $code;?>">
+                                                    <div class="icheck-inline">
+                                                        <label>
+                                                        <input type="radio" name="radio3" checked class="icheck" onclick="empDetails('<?php echo $code?>','MySelf')" value="<?php echo $code?>"> MySelf</label>
+                                                        <label>
+                                                        <input type="radio" name="radio3" class="icheck" onclick="empDetails('<?php echo $code?>','MyTeam')"> MyTeam </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group" id="empdetail" style="display: none;">
+                                                <label class="col-md-3 control-label"></label>
+                                                <div class="col-md-5">
+                
+                                                    <select class="form-control" id="empCheck" name="empCheck" onclick="setLeaveFor(this.value);">
+                                                    <option value="">select </option>
+                                                        <?php $sql="select * from Hrdmastqry where MNGR_CODE='$code'";
+                                                         $result = query($query,$sql,$pa,$opt,$ms_db);
+                                                        while($row = $fetch($result)) { ?>
+                                                            <option  value="<?php echo $row['Emp_Code'];?>" >
+                                                                <?php echo $row['EMP_NAME']; ?>
+                                                            </option>
+                                                            <?php } ?>
+                                                    </select>  
+                                                 </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">Apply Leave Type</label>
+                                                <div class="col-md-5">
+                                                    <select class="form-control" name="leaveType" id="leaveType" onchange="getLeaveBalance(this.value,'<?php echo $code;?>');">
+                                                    <option value="">Select Type</option>
+                                                     <?php if($empType == 1){
+                                                         $month = array("07", "12");
+                                                         echo $data['sex'];
+                                                         if(in_array($month_val,$month)){
+                                                             if($data['MStatus'] == '2'){
+                                                                 if($data['Sex'] == '1'){
+                                                                     $sql="select * from LOVMast where LOV_Field='leave' AND LOV_Value!='5' AND LOV_Value!='7' AND LOV_Value!='9'";
+                                                                 }
+                                                                 else{
+                                                                     $sql="select * from LOVMast where LOV_Field='leave' AND LOV_Value!='5' AND LOV_Value!='9'";
+                                                                 }
+
+                                                             }
+                                                             else{
+                                                                 if($data['Sex'] == '1'){
+                                                                     $sql="select * from LOVMast where LOV_Field='leave' AND LOV_Value!='7' AND LOV_Value!='6' AND LOV_Value!='9'";
+                                                                 }
+                                                                 else{
+                                                                     $sql="select * from LOVMast where LOV_Field='leave' AND LOV_Value!='6' AND LOV_Value!='9'";
+                                                                 }
+
+                                                             }
+                                                         }
+                                                         else{
+                                                             if($data['MStatus'] == '2'){
+                                                                 if($data['Sex'] == '1'){
+                                                                     $sql="select * from LOVMast where LOV_Field='leave' AND LOV_Value!='5' AND LOV_Value!='7' AND LOV_Value!='8' AND LOV_Value!='9'";
+                                                                 }
+                                                                 else{
+                                                                     $sql="select * from LOVMast where LOV_Field='leave' AND LOV_Value!='5' AND LOV_Value!='8' AND LOV_Value!='9'";
+                                                                 }
+
+                                                             }
+                                                             else{
+                                                                 if($data['Sex'] == '1'){
+                                                                     $sql="select * from LOVMast where LOV_Field='leave' AND LOV_Value!='7' AND LOV_Value!='6'  AND LOV_Value!='8' AND LOV_Value!='9'";
+                                                                 }
+                                                                 else{
+                                                                     $sql="select * from LOVMast where LOV_Field='leave' AND LOV_Value!='6' AND LOV_Value!='8' AND LOV_Value!='9'";
+                                                                 }
+
+                                                             }
+                                                         }
+
+
+                                                           $result = query($query,$sql,$pa,$opt,$ms_db);
+                                                            while($row = $fetch($result)){ ?>
+                                                            <option  value="<?php echo $row['LOV_Value'] ?>">
+                                                           <?php echo $row['LOV_Text'] ?>
+                                                       </option>
+                                                       <?php }}else{
+
+                                                         if($data['MStatus'] != '1'){
+                                                             $sql="select * from LOVMast where LOV_Field='leave' and LOV_Active='A' AND LOV_Value!='5'";
+                                                         }
+                                                          else{
+                                                              $sql="select * from LOVMast where LOV_Field='leave' and LOV_Active='A'";
+                                                          }
+                                                           $result = query($query,$sql,$pa,$opt,$ms_db);
+                                                            while($row = $fetch($result)){  
+                                                        ?>
+                                                       <option  value="<?php echo $row['LOV_Value'] ?>">
+                                                           <?php echo $row['LOV_Text'] ?>
+                                                       </option>
+                                                       <?php } }?>
+                                                    </select>
+                                                </div>
+                                                <span id="leaveErr" style="color:red;"></span>
+                                                <span id="usenextleave" style="display: none; float:left"><br>
+                                                    <div class="col-md-12">
+                                                        <input type="checkbox" value="0" id="DeviationLeave" name='DeviationLeave' class="setDL"  onchange="getDLLevel()" />Do you want to use Earned Leave of upcoming Year?
+                                                    </div>
+                                                </span>
+
+
+                                            </div>
+
+
+                                                <div class="col-md-12" id="uploadMultiple" style="display:none;">
+                                                    <div class="col-md-6">
+                                                    <label class="control-label">Upload Attachments
+                                                    </label></br>
+                                                    <input type="file" name="uploadfile[]" id="uploadfile" onChange="logoimage_Validation();"/>
+                                                        </div>
+                                                    <div class="col-md-6">
+                                                        <input type="button" value="+" onclick="addMoreFile()" ><span id="dialoginvalid"  style="color: #FF0000"></span>
+                                                        </div>
+                                                    <br><br>
+                                                    <div id="uploadgroup">
+                                                        <br> <br>
+                                                    </div>
+                                                    <br>
+                                                   <!-- <div class="col-md-1" style="float: right">
+                                                        <input type="button" value="upload" onclick="getUploadVal()">
+                                                    </div>-->
+                                                </div>
+                                            <span id="message"></span>
+
+
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">Reason</label>
+                                                <div class="col-md-5">
+                                                <textarea name="reason"  rows="5" id="reason" class="form-control"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="col-md-12" style="background-color:#ddd;height: 80px;"> 
+                                            No of Days Applied
+                                            <hr style="margin:5px 0;">      
+                                            <strong id="noOfDays" name="noOfDays">0</strong>
+                                                    
+                                            </div>
+                                            <div class="clearfix" style="margin-bottom: 10px;">
+                                            </div>
+                                            <div class="col-md-12" style="background-color:#e5e5e5;height: 150px;">
+                                                My Leave Balance Details<hr style="margin:5px 0;">
+												<div id="my_leave" class='col-md-12'>
+												
+												</div>
+
+                                                
+
+                                                <div>
+                                                   <!-- <label>Privilage Leave:</label>&nbsp;&nbsp;&nbsp;
+                                                   <strong id="pl">0.0</strong> -->
+                                                </div>
+                                            </div>
+                                            <div class="clearfix" style="margin-bottom: 10px;">
+                                            </div>
+                                            <div class="col-md-12" style="background-color:#e5e5e5;height: 110px;">
+                                                Holidays
+                                                <hr style="margin:5px 0;">
+                                            </div>
+                                            <div class="clearfix" style="margin-bottom: 10px;">
+                                            </div>
+                                        </div>
+                                        <div class="clearfix"></div>
+
+                                            <div class="form-actions" style="padding: 5px;    color: purple;">
+                                                <div class="row">
+                                                    <div class="col-md-offset-3 col-md-9">
+                                                    My Alternative Contact Details
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="form-group" style="margin-top: 10px;"> 
+                                                <label class="col-md-1 control-label">
+                                                   Mobile
+                                                </label>
+                                                <div class="col-md-3">  
+                                                   <input type="text" class="form-control" width="100%" name="empMobile">
+                                                </div>
+
+                                                <label class="col-md-1 control-label">
+                                                   Email
+                                                </label>
+                                                <div class="col-md-3">  
+                                                   <input type="text" class="form-control" name="empEmail">
+                                                </div>
+
+                                                <label class="col-md-1 control-label">
+                                                   Address
+                                                </label>
+                                                <div class="col-md-3">  
+                                                   <input type="text" class="form-control" name="empAddress">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group" id="myselftable" style=" display:block;">
+                                                
+                                                <div class="col-md-12">
+                                                    <!-- BEGIN SAMPLE TABLE PORTLET-->
+                                                    <div class="portlet box ">
+                                                        <div class="portlet-body">
+                                                            <div class="table-scrollable">
+                                                                <table class="table table-hover">
+                                                                <thead>
+                                                                <tr>
+                                                                   <th>Approval Required</th>
+                                                                    <th>Send To</th>
+                                                                    <th>Keep Pending till i return</th>
+                                                                    <th>Forward To My Contact Email</th>
+                                                                </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                        <tr>
+                                                        <td>Leave Application</td>
+                                                        <td>
+                                                        <label>
+                                                        <input type="radio" name="radio4"  class="icheck" value="1"> </label>
+                                                        </td>
+                                                        <td>
+                                                        <label>
+                                                        <input type="radio" name="radio4"  class="icheck" value="2" checked> </label>
+                                                        </td>
+                                                        <td>
+                                                        <label>
+                                                        <input type="radio" name="radio4"  class="icheck" value="3"> </label>
+                                                        </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>On Duty Attendance</td>
+                                                            <td><label>
+                                                            <input type="radio" name="radio5"  class="icheck" value="4"> </label></td>
+                                                            <td><label>
+                                                            <input type="radio" name="radio5"  class="icheck" value="5" checked> </label></td>
+                                                            <td><label>
+                                                            <input type="radio" name="radio5"  class="icheck" value="6"> </label></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Past Attendance</td>
+                                                            <td><label>
+                                                            <input type="radio" name="radio6"  class="icheck" value="7"> </label></td>
+                                                            <td><label>
+                                                            <input type="radio" name="radio6"  class="icheck" value="8" checked> </label></td>
+                                                            <td><label>
+                                                            <input type="radio" name="radio6"  class="icheck" value="9"> </label></td>
+                                                        </tr>
+                                                                </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- END SAMPLE TABLE PORTLET-->
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                               <div class="col-md-9">
+                                               <div class="col-md-3">
+                                                    Approve By &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                </div>
+                                                <div class="col-md-3">
+                                                                                                     <img class="" src="../Profile/upload_images/<?php echo $data1['EmpImage'];?>"
+                                                     style="width: 25%;height: 25%;">
+                                                </div>    
+                                                <div class="col-md-3">
+                                                 <?php echo $data1['EMP_NAME'];?>, <?php echo $data1['DSG_NAME'];?>, <?php echo $data1['MailingAddress'];?> 
+                                                <input type="hidden" id="levellist" value=' <?php echo $data1['Emp_Code'];?>'>
+                                                <strong> <span id="showlevel1"></span></strong>
+                                                </div>
+                                                </div>
+                                            </div>
+
+                                        <div class="form-actions">
+                                            <div class="row">
+                                                <div class="col-md-offset-3 col-md-9">
+                                                    <button type="button" onclick="submitLeave('<?php echo $code; ?>','<?php echo $mngrcode;?>');" class="btn btn-circle blue" id="leaveSubmit">Submit</button>
+                                                    <button type="reset" class="btn btn-circle default">Reset</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <!-- END FORM-->
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>

@@ -1,0 +1,164 @@
+<div class="tab-pane" id="tab_4">
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">
+                <i class="fa fa-gift"></i>Roster Configuration
+            </div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>
+                <a href="#portlet-config" data-toggle="modal" class="config">
+                </a>
+                <a href="javascript:;" class="reload">
+                </a>
+                <a href="javascript:;" class="remove">
+                </a>
+            </div>
+        </div>
+        <div class="portlet-body form">
+            <!-- BEGIN FORM-->
+            <form  enctype="multipart/form-data" id="form" name="mailconfigform" class="form-horizontal form-row-seperated">
+                <div class="form-body">
+
+                <div class="form-group">
+                     <div id="err" class="alert alert-danger display-hide">
+
+    </div>
+    <div id="succ" class="alert alert-success display-hide">
+        <button class="close" data-close="alert"></button>
+        Roster Submitted successfully! 
+    </div>
+                </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3">Roster Name</label>
+                        <div class="col-md-6">
+                            <input type="text" placeholder="Enter Your Work Flow Name" id="workName" class="form-control" onkeyup="validate.require('workName','errorhidreq1');" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-3">For Whom</label>
+                        <div class="col-md-6">
+                            <select id="forWhome" class="form-control" onchange="Roster.showdefault();">
+                                <option value="122" selected >Bussiness Unit</option>
+                                <option value="222">Location</option>
+                                <option value="322">Work Location</option>
+                                <option value="422">Function</option>
+                                <option value="522">Sub Function</option>
+                                <option value="622">Grade</option>
+                                <option value="722">Employee Type</option>
+                                <option value="922">Process</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-5" id="showsuboption">
+                        </div>
+                        <div class="col-md-1">
+                            <button type="button" class="btn green" id="add" onclick="Roster.addConfirm();">Add</button>
+                        </div>
+                        <div class="col-md-5" height="600px" width="600px" id="showConfirm">
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12" >
+                        <div class="col-md-3">
+                            <button type="button" class="btn btn-block success" id="emproster" onclick="Roster.addemp();">Roster For </button>
+                        </div>
+
+                            <div class="col-md-6" id="empshowdiv" style="display:none;">
+                            <select id="select2_sample2" class="form-control select2" multiple>
+                            
+                            </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3" style="margin-top: 20px;">Rostering Date</label>
+                        <div class="col-md-9" style="left: -16px;">
+                            <div class="col-md-6">
+                            <label class="control-label">From :
+
+                            </label>
+                                <input type="text" id="dfrom" name="dfrom" class="form-control"/>
+                            </div>
+                            <div class="col-md-6">
+                            <label class="control-label"> To :
+
+                            </label>
+                                <input type="text" id="dto" name="dto" class="form-control"/>
+                            </div>
+                        </div>
+                    </div>
+                        <div class="form-group">
+                            <div class="col-md-6">
+                            <label class="control-label col-md-6">Applicable Shift</label>
+                            <div class="col-md-6">
+                                <select name="rshift" id="rshift" class="form-control" onkeyup="validate.require('rshift','errorhidreq2');">
+                                <?php
+                                    $result=query($query,"select ShiftMastId,Shift_Name from ShiftMast ",$pa,$opt,$ms_db);
+                                while ($row=$fetch($result)){
+                                    
+                                    $shiftlist="<option value='".$row[0]."'>".$row[1]."</option>";
+                                    echo$shiftlist;
+
+                                }
+                                ?>
+                                </select>
+                            </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="control-label col-md-6">Applicable Shift Pattern</label>
+                                <div class="col-md-6">
+                                    <select name="rshiftp" id="rshiftp" class="form-control" onkeyup="validate.require('rshiftp','errorhidreq3');">
+                                        <?php
+                                        $result=query($query,"select ShiftPatternMastid,ShiftPattern_Name from ShiftPatternMast ",$pa,$opt,$ms_db);
+                                        while ($row=$fetch($result)){
+
+                                            $shiftplist="<option value='".$row[0]."'>".$row[1]."</option>";
+                                            echo$shiftplist;
+
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                           <!-- <div class="col-md-6">
+                            <label class="control-label col-md-6">Define Default Period</label>
+                            <div class="col-md-3" style="padding-top:8px;">
+                                <input type="checkbox" id="de_p" value="0">
+
+                            </div>
+                            </div> -->
+                            <div class="col-md-6">
+                                <label class="control-label col-md-6">Carry forward same roster </label>
+                                <div class="col-md-6" style="padding-top:8px;">
+                                    <input type="checkbox" id="auto_p" value="0">
+
+                                </div>
+                            </div>
+                        </div>
+                </div>
+                <div class="form-actions">
+                    <div class="row">
+                        <div class="col-md-offset-3 col-md-9">
+                            <input type="hidden" name="add" id="add" value="Add" />
+                            <button type="button" class="btn green" id="submitRosterconfig" onclick="Roster.submitrost();"><i class="fa fa-check"></i> Submit</button>
+                        </div>
+                    </div>
+                </div>
+                <input type="hidden" id="errorhid" value="0">
+                <input type="hidden" id="errorhidreq1" value="1">
+                <input type="hidden" id="errorhidreq2" value="0">
+                <input type="hidden" id="errorhidreq3" value="0">
+                <input type="hidden" id="errorhidreq4" value="0">
+                <input type="hidden" id="errorhidreq5" value="0">
+            </form>
+            <!-- END FORM-->
+        </div>
+    </div>
+</div>

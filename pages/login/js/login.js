@@ -1,0 +1,10 @@
+var Login={
+
+    logincheck:function(){
+
+        
+    }
+
+
+}
+

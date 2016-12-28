@@ -1,0 +1,833 @@
+{
+	"menuitem":[
+	{
+		"id":"1",
+		"title":"Home",
+		"icon":"icon-home",
+		"child-menu":[
+
+		],
+		"href":"deshboard"
+
+	},
+	{
+		"id":"2",
+		"title":"Manage Company",
+		"icon":"icon-home",
+		"child-menu":[
+						{
+							"id":"21",
+							"title":"Add Company",
+							"icon":"icon-home",
+							"href":"addcomp",
+							"child-submenu":[]
+						},
+						{
+							"id":"22",
+							"title":"View Company",
+							"icon":"icon-home",
+							"href":"viewcomp",
+							"child-submenu":[]
+						}
+
+		],
+		"href":"javascript:;"
+		
+	},
+	{
+		"id":"3",
+		"title":"Orgnizational Structures",
+		"icon":"icon-home",
+		"child-menu":[
+					{
+						"id":"31",
+						"title":"Manage Location",
+						"icon":"icon-home",
+						"href":"javascript:;",
+						"child-submenu":[
+											{
+												"id":"311",
+											"title":"Add Location",
+											"icon":"icon-home",
+											"href":"addloc",
+											"child-subsubmenu":[]
+												},
+												{
+												"id":"312",
+											"title":"View Location",
+											"icon":"icon-home",
+											"href":"viewloc",
+											"child-subsubmenu":[]
+												}
+							]
+					},
+					{
+						"id":"32",
+						"title":"Manage Business Unit",
+						"icon":"icon-home",
+						"href":"javascript:;",
+						"child-submenu":[
+											   {
+												"id":"321",
+											"title":"Add Business Unit",
+											"icon":"icon-home",
+											"href":"addbusiness",
+											"child-subsubmenu":[]
+												},
+												{
+												"id":"322",
+											"title":"View Business Unit",
+											"icon":"icon-home",
+											"href":"viewbusiness",
+											"child-subsubmenu":[]
+												}
+							]
+					},{
+						"id":"33",
+						"title":"Manage Employee Type",
+						"icon":"icon-home",
+						"href":"javascript:;",
+						"child-submenu":[
+											{
+												"id":"331",
+											"title":"Add Employee Type",
+											"icon":"icon-home",
+											"href":"addloc",
+											"child-subsubmenu":[]
+												},
+												{
+												"id":"332",
+											"title":"View Employee Type",
+											"icon":"icon-home",
+											"href":"viewloc",
+											"child-subsubmenu":[]
+												}
+							]
+					},
+					{
+						"id":"34",
+						"title":"Manage Process",
+						"icon":"icon-home",
+						"href":"javascript:;",
+						"child-submenu":[
+											{
+												"id":"341",
+											"title":"Add Process",
+											"icon":"icon-home",
+											"href":"addbusiness",
+											"child-subsubmenu":[]
+												},
+												{
+												"id":"342",
+											"title":"View Process",
+											"icon":"icon-home",
+											"href":"viewbusiness",
+											"child-subsubmenu":[]
+												}
+							]
+					},{
+						"id":"35",
+						"title":"Manage Emp. Master",
+						"icon":"icon-home",
+						"href":"javascript:;",
+						"child-submenu":[
+											{
+												"id":"351",
+											"title":"Add Emp. Master",
+											"icon":"icon-home",
+											"href":"addloc",
+											"child-subsubmenu":[]
+												},
+												{
+												"id":"352",
+											"title":"View Emp. Master",
+											"icon":"icon-home",
+											"href":"viewloc",
+											"child-subsubmenu":[]
+												}
+							]
+					}
+
+		],
+		"href":"javascript:;"
+		
+	},
+	{
+		"id":"4",
+		"title":"User Management",
+		"icon":"icon-home",
+		"child-menu":[
+						{
+							"id":"41",
+							"title":"Manage Users",
+							"icon":"icon-home",
+							"href":"addcomp",
+							"child-submenu":[
+										{
+										"id":"411",
+										"title":"Add Users",
+										"icon":"icon-home",
+										"href":"addcomp",
+										"child-subsubmenu":[]
+									},
+									{
+										"id":"412",
+										"title":"View Users",
+										"icon":"icon-home",
+										"href":"addcomp",
+										"child-subsubmenu":[]
+									}
+						]
+						},
+						{
+							"id":"42",
+							"title":"Manage Roles",
+							"icon":"icon-home",
+							"href":"viewcomp",
+							"child-submenu":[
+							        {
+										"id":"421",
+										"title":"Add Roles",
+										"icon":"icon-home",
+										"href":"addcomp",
+										"child-subsubmenu":[]
+									},
+									{
+										"id":"422",
+										"title":"View Roles",
+										"icon":"icon-home",
+										"href":"addcomp",
+										"child-subsubmenu":[]
+									}]
+						},
+						{
+							"id":"43",
+							"title":"Manage Menus",
+							"icon":"icon-home",
+							"href":"viewcomp",
+							"child-submenu":[
+							        {
+										"id":"431",
+										"title":"Add Menus",
+										"icon":"icon-home",
+										"href":"addcomp",
+										"child-subsubmenu":[]
+									},
+									{
+										"id":"432",
+										"title":"View Menus",
+										"icon":"icon-home",
+										"href":"addcomp",
+										"child-subsubmenu":[]
+									}]
+						}
+
+		],
+		"href":"javascript:;"
+		
+	},
+	{
+		"id":"5",
+		"title":"Profile",
+		"icon":"icon-puzzle",
+		"child-menu":[
+						{
+							"id":"51",
+							"title":"My Profile",
+							"icon":"icon-home",
+							"href":"addcomp",
+							"child-submenu":[]
+						},
+						{
+							"id":"52",
+							"title":"My Team",
+							"icon":"icon-home",
+							"href":"viewcomp",
+							"child-submenu":[]
+						},
+						{
+							"id":"53",
+							"title":"Add Employee",
+							"icon":"icon-home",
+							"href":"addcomp",
+							"child-submenu":[]
+						},
+						{
+							"id":"54",
+							"title":"Edit Employee",
+							"icon":"icon-home",
+							"href":"viewcomp",
+							"child-submenu":[]
+						},
+						{
+							"id":"55",
+							"title":"Employee Upload",
+							"icon":"icon-home",
+							"href":"addcomp",
+							"child-submenu":[]
+						},
+						{
+							"id":"56",
+							"title":"Download Employee Master",
+							"icon":"icon-home",
+							"href":"viewcomp",
+							"child-submenu":[]
+						}
+
+		],
+		"href":"javascript:;"
+		
+	},
+	{
+		"id":"6",
+		"title":"Attendance",
+		"icon":"icon-home",
+		"child-menu":[
+						{
+							"id":"61",
+							"title":"Out On Work Request",
+							"icon":"icon-home",
+							"href":"addcomp",
+							"child-submenu":[]
+						},
+						{
+							"id":"62",
+							"title":"Mark Past Attendance",
+							"icon":"icon-home",
+							"href":"viewcomp",
+							"child-submenu":[]
+						},
+						{
+							"id":"63",
+							"title":"Approval Of Out Of Work Request",
+							"icon":"icon-home",
+							"href":"addcomp",
+							"child-submenu":[]
+						},
+						{
+							"id":"64",
+							"title":"Mark Past Attendance-Approval",
+							"icon":"icon-home",
+							"href":"viewcomp",
+							"child-submenu":[]
+						},
+						{
+							"id":"65",
+							"title":"My Calender",
+							"icon":"icon-home",
+							"href":"addcomp",
+							"child-submenu":[]
+						},
+						{
+							"id":"66",
+							"title":"My Team Calender",
+							"icon":"icon-home",
+							"href":"viewcomp",
+							"child-submenu":[]
+						},
+						{
+							"id":"67",
+							"title":"My Team Attendance Summary",
+							"icon":"icon-home",
+							"href":"addcomp",
+							"child-submenu":[]
+						},
+						{
+							"id":"68",
+							"title":"My Out On Work Request",
+							"icon":"icon-home",
+							"href":"viewcomp",
+							"child-submenu":[]
+						},
+						{
+							"id":"69",
+							"title":"My Past Attendance Request",
+							"icon":"icon-home",
+							"href":"addcomp",
+							"child-submenu":[]
+						},
+						{
+							"id":"610",
+							"title":"All Past Attendance Request",
+							"icon":"icon-home",
+							"href":"viewcomp",
+							"child-submenu":[]
+						},
+						{
+							"id":"611",
+							"title":"View Employee Roaster",
+							"icon":"icon-home",
+							"href":"addcomp",
+							"child-submenu":[]
+						},
+						{
+							"id":"612",
+							"title":"Manage Shift",
+							"icon":"icon-home",
+							"href":"viewcomp",
+							"child-submenu":[]
+						},
+						{
+							"id":"613",
+							"title":"Manager Shift Pattern",
+							"icon":"icon-home",
+							"href":"viewcomp",
+							"child-submenu":[]
+						},
+						{
+							"id":"614",
+							"title":"shift allocation",
+							"icon":"icon-home",
+							"href":"addcomp",
+							"child-submenu":[]
+						},
+						{
+							"id":"615",
+							"title":"Manage Roaster",
+							"icon":"icon-home",
+							"href":"viewcomp",
+							"child-submenu":[]
+						},
+						{
+							"id":"616",
+							"title":"Attendance Upload",
+							"icon":"icon-home",
+							"href":"addcomp",
+							"child-submenu":[]
+						},
+						{
+							"id":"617",
+							"title":"Roaster Upload",
+							"icon":"icon-home",
+							"href":"viewcomp",
+							"child-submenu":[]
+						}
+
+						
+
+		],
+		"href":"javascript:;"
+		
+	},
+	{
+		"id":"7",
+		"title":"Leave",
+		"icon":"icon-home",
+		"child-menu":[
+
+		],
+		"href":"javascript:;"
+
+	},
+	{
+		"id":"8",
+		"title":"Payroll",
+		"icon":"icon-home",
+		"child-menu":[
+
+		],
+		"href":"javascript:;"
+
+	},
+	{
+		"id":"9",
+		"title":"Seperation",
+		"icon":"icon-home",
+		"child-menu":[
+
+		],
+		"href":"javascript:;"
+
+	},
+	{
+		"id":"10",
+		"title":"Policies & Forms",
+		"icon":"icon-home",
+		"child-menu":[{
+							"id":"101",
+							"title":"Policies",
+							"icon":"icon-home",
+							"href":"viewcomp",
+							"child-submenu":[]
+						},
+						{
+							"id":"102",
+							"title":"Forms",
+							"icon":"icon-home",
+							"href":"viewcomp",
+							"child-submenu":[]
+						}
+
+		],
+		"href":"javascript:;"
+
+	},
+	{
+		"id":"11",
+		"title":"Reports",
+		"icon":"icon-home",
+		"child-menu":[{
+							"id":"111",
+							"title":"Profile Reports",
+							"icon":"icon-home",
+							"href":"viewcomp",
+							"child-submenu":[]
+						},
+						{
+							"id":"112",
+							"title":"Attendance Reports",
+							"icon":"icon-home",
+							"href":"viewcomp",
+							"child-submenu":[]
+						},
+						{
+							"id":"113",
+							"title":"Leave Reports",
+							"icon":"icon-home",
+							"href":"viewcomp",
+							"child-submenu":[]
+						},
+						{
+							"id":"114",
+							"title":"Payroll Reports",
+							"icon":"icon-home",
+							"href":"viewcomp",
+							"child-submenu":[]
+						}
+
+		],
+		"href":"javascript:;"
+
+	},
+	{
+		"id":"12",
+		"title":"Configuration",
+		"icon":"icon-home",
+		"child-menu":[{
+							"id":"121",
+							"title":"Organization Structures",
+							"icon":"icon-home",
+							"href":"viewcomp",
+							"child-submenu":[
+										{
+											"id":"1211",
+											"title":"Companies",
+											"icon":"icon-home",
+											"href":"viewcomp",
+											"child-subsubmenu":[]
+										},
+										{
+											"id":"1212",
+											"title":"Business Units",
+											"icon":"icon-home",
+											"href":"viewcomp",
+											"child-subsubmenu":[]
+										},
+										{
+											"id":"1213",
+											"title":"Locations",
+											"icon":"icon-home",
+											"href":"viewcomp",
+											"child-subsubmenu":[]
+										},
+										{
+											"id":"1214",
+											"title":"Work Locations",
+											"icon":"icon-home",
+											"href":"viewcomp",
+											"child-subsubmenu":[]
+										},
+										{
+											"id":"1215",
+											"title":"States",
+											"icon":"icon-home",
+											"href":"viewcomp",
+											"child-subsubmenu":[]
+										},
+										{
+											"id":"1216",
+											"title":"Functions",
+											"icon":"icon-home",
+											"href":"viewcomp",
+											"child-subsubmenu":[]
+										},
+										{
+											"id":"1217",
+											"title":"Sub-Functions",
+											"icon":"icon-home",
+											"href":"viewcomp",
+											"child-subsubmenu":[]
+										},
+										{
+											"id":"1218",
+											"title":"Grades/Levels",
+											"icon":"icon-home",
+											"href":"viewcomp",
+											"child-subsubmenu":[]
+										},
+										{
+											"id":"1219",
+											"title":"Employee Type",
+											"icon":"icon-home",
+											"href":"viewcomp",
+											"child-subsubmenu":[]
+										},
+										{
+											"id":"12110",
+											"title":"Process",
+											"icon":"icon-home",
+											"href":"viewcomp",
+											"child-subsubmenu":[]
+										},
+										{
+											"id":"12111",
+											"title":"Holidays",
+											"icon":"icon-home",
+											"href":"viewcomp",
+											"child-subsubmenu":[]
+										},
+										{
+											"id":"12112",
+											"title":"Qualification",
+											"icon":"icon-home",
+											"href":"viewcomp",
+											"child-subsubmenu":[]
+										},
+										{
+											"id":"12113",
+											"title":"University",
+											"icon":"icon-home",
+											"href":"viewcomp",
+											"child-subsubmenu":[]
+										},
+										{
+											"id":"12114",
+											"title":"Country",
+											"icon":"icon-home",
+											"href":"viewcomp",
+											"child-subsubmenu":[]
+										},
+										{
+											"id":"12115",
+											"title":"City",
+											"icon":"icon-home",
+											"href":"viewcomp",
+											"child-subsubmenu":[]
+										},
+										{
+											"id":"12116",
+											"title":"Cost Allocation",
+											"icon":"icon-home",
+											"href":"viewcomp",
+											"child-subsubmenu":[]
+										},
+										{
+											"id":"12117",
+											"title":"Option Master",
+											"icon":"icon-home",
+											"href":"viewcomp",
+											"child-subsubmenu":[]
+										},
+										{
+											"id":"12118",
+											"title":"Reason Master",
+											"icon":"icon-home",
+											"href":"viewcomp",
+											"child-subsubmenu":[]
+										}
+
+							]
+						},
+						{
+							"id":"122",
+							"title":"Component Setup",
+							"icon":"icon-home",
+							"href":"viewcomp",
+							"child-submenu":[]
+						},
+						{
+							"id":"123",
+							"title":"Formula Setup",
+							"icon":"icon-home",
+							"href":"viewcomp",
+							"child-submenu":[]
+						},
+						{
+							"id":"124",
+							"title":"Change Year",
+							"icon":"icon-home",
+							"href":"viewcomp",
+							"child-submenu":[
+										{
+											"id":"1241",
+											"title":"Financial Year",
+											"icon":"icon-home",
+											"href":"viewcomp",
+											"child-subsubmenu":[]
+										},
+										{
+											"id":"1242",
+											"title":"Reimbursement Year",
+											"icon":"icon-home",
+											"href":"viewcomp",
+											"child-subsubmenu":[]
+										},
+										{
+											"id":"1243",
+											"title":"Leave Year",
+											"icon":"icon-home",
+											"href":"viewcomp",
+											"child-subsubmenu":[]
+										}
+							]
+						},
+						{
+							"id":"125",
+							"title":"User Policies & Rules",
+							"icon":"icon-home",
+							"href":"viewcomp",
+							"child-submenu":[]
+						},
+						{
+							"id":"126",
+							"title":"Employee Portal Configuration",
+							"icon":"icon-home",
+							"href":"viewcomp",
+							"child-submenu":[]
+						},{
+							"id":"127",
+							"title":"My Profile",
+							"icon":"icon-home",
+							"href":"viewcomp",
+							"child-submenu":[]
+						},
+						{
+							"id":"128",
+							"title":"Leave Configuration",
+							"icon":"icon-home",
+							"href":"viewcomp",
+							"child-submenu":[]
+						},
+						{
+							"id":"129",
+							"title":"Attendance Configuration",
+							"icon":"icon-home",
+							"href":"viewcomp",
+							"child-submenu":[]
+						},
+						{
+							"id":"1210",
+							"title":"Company Announcement",
+							"icon":"icon-home",
+							"href":"viewcomp",
+							"child-submenu":[]
+						},{
+							"id":"1211",
+							"title":"Departmental Notification",
+							"icon":"icon-home",
+							"href":"viewcomp",
+							"child-submenu":[]
+						},
+						{
+							"id":"1212",
+							"title":"Message Configuration",
+							"icon":"icon-home",
+							"href":"viewcomp",
+							"child-submenu":[]
+						},
+						{
+							"id":"1213",
+							"title":"Mail Notification",
+							"icon":"icon-home",
+							"href":"viewcomp",
+							"child-submenu":[]
+						},
+						{
+							"id":"1214",
+							"title":"Manage Alert",
+							"icon":"icon-home",
+							"href":"viewcomp",
+							"child-submenu":[]
+						},{
+							"id":"1215",
+							"title":"New Opening",
+							"icon":"icon-home",
+							"href":"viewcomp",
+							"child-submenu":[]
+						},
+						{
+							"id":"1216",
+							"title":"Employee Recongnition",
+							"icon":"icon-home",
+							"href":"viewcomp",
+							"child-submenu":[]
+						}
+
+		],
+		"href":"javascript:;"
+
+	},
+	{
+		"id":"13",
+		"title":"Tools",
+		"icon":"icon-home",
+		"href":"viewcomp",
+		"child-menu":[
+						{
+							"id":"131",
+							"title":"Security",
+							"icon":"icon-home",
+							"href":"viewcomp",
+							"child-submenu":[
+											{
+												"id":"1311",
+												"title":"Manage User Role",
+												"icon":"icon-home",
+												"href":"viewcomp",
+												"child-subsubmenu":[]
+											},
+											{
+												"id":"1312",
+												"title":"Manage User",
+												"icon":"icon-home",
+												"href":"viewcomp",
+												"child-subsubmenu":[]
+											}
+						]
+						},
+						{
+							"id":"132",
+							"title":"Import",
+							"icon":"icon-home",
+							"href":"viewcomp",
+							"child-submenu":[]
+						},
+						{
+							"id":"133",
+							"title":"Export",
+							"icon":"icon-home",
+							"href":"viewcomp",
+							"child-submenu":[]
+						},
+						{
+							"id":"134",
+							"title":"Log Reports",
+							"icon":"icon-home",
+							"href":"viewcomp",
+							"child-submenu":[]
+						}
+		],
+		"href":"javascript:;"
+	},
+	{
+		"id":"14",
+		"title":"Helpdesk",
+		"icon":"icon-home",
+		"child-menu":[],
+		"href":"javascript:;"
+
+	}
+
+
+	]
+}

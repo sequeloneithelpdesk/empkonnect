@@ -1,0 +1,79 @@
+[
+	{"id":1122,
+		"text":"Company",
+		"children":[
+
+		],
+		"icon":"icon-user-follow",
+		"state":{"selected" : true }
+	},
+	{"id":122,
+	"text":"Business Unit",
+	"children":[
+
+	],
+	"icon":"icon-user-follow",
+	"state":{"selected" : true }
+},
+	{"id":222,
+		"text":"Location",
+		"children":[
+
+		],
+		"icon":"icon-user-follow",
+		"state":{"selected" : true }
+	},
+
+	{"id":322,
+		"text":"Working Location",
+		"children":[
+
+		],
+		"icon":"icon-user-follow",
+		"state":{"selected" : true }
+	},
+
+	{"id":422,
+		"text":"Function",
+		"children":[
+
+		],
+		"icon":"icon-user-follow",
+		"state":{"selected" : true }
+	},
+
+	{"id":522,
+		"text":"Sub Function",
+		"children":[
+
+		],
+		"icon":"icon-user-follow",
+		"state":{"selected" : true }
+	},
+	{"id":622,
+		"text":"Grade",
+		"children":[
+
+		],
+		"icon":"icon-user-follow",
+		"state":{"selected" : true }
+	},
+
+	{"id":722,
+		"text":"Employee Type",
+		"children":[
+
+		],
+		"icon":"icon-user-follow",
+		"state":{"selected" : true }
+	},
+
+	{"id":922,
+		"text":"Process",
+		"children":[
+
+		],
+		"icon":"icon-user-follow",
+		"state":{"selected" : true }
+	}
+]

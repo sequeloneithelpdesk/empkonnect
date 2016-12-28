@@ -1,0 +1,272 @@
+{
+	"data" :{
+		"0":{
+			"value" : "Emp Code",
+			"condition" : ["CheckSqlInjection"],
+			"mandatory" : true
+		},
+		"1":{
+			"value" : "Status",
+			"type" : "sqlOption",
+			"sql" : "SELECT * FROM statusmast",
+			"optValColName" : ["Status_Code","Status_Name"],
+			"condition" : ["CheckSqlInjection"],
+			"mandatory" : true
+		},
+		"2":{
+			"value" : "Title",
+			"condition" : ["CheckSqlInjection"]
+		},
+		"3":{
+			"value" : "First Name",
+			"condition" : ["CheckSqlInjection"],
+			"mandatory" : true
+		},
+		"4":{
+			"value" : "Middle Name",
+			"condition" : ["CheckSqlInjection"]
+		},
+		"5":{
+			"value" : "Last Name",
+			"condition" : ["CheckSqlInjection"],
+			"mandatory" : true
+		},
+		"6":{
+			"value" : "Gender",
+			"condition" : ["CheckSqlInjection"],
+			"rangeValue":[["1","Male"],["2","Female"]],
+			"mandatory" : true
+		},
+		"7":{
+			"value" : "Designation",
+			"type" : "sqlOption",
+			"sql" : "SELECT * FROM DSGMAST",
+			"optValColName" : ["DSGID","DSG_NAME"],
+			"condition" : ["CheckSqlInjection"]
+		},
+		"8":{
+			"value" : "Location",
+			"type" : "sqlOption",
+			"sql" : "SELECT * FROM LocMast",
+			"optValColName" : ["LOCID","LOC_NAME"],
+			"condition" : ["CheckSqlInjection"]
+		},
+		"9":{
+			"value" : "Company Name",
+			"type" : "sqlOption",
+			"sql" : "SELECT * FROM CompMast",
+			"optValColName" : ["COMPID","COMP_NAME"],
+			"condition" : ["CheckSqlInjection"]
+		},
+		"10":{
+			"value" : "Business Unit",
+			"type" : "sqlOption",
+			"sql" : "SELECT * FROM BussMast",
+			"optValColName" : ["BUSSID","BussName"],
+			"condition" : ["CheckSqlInjection"]
+		},
+		"11":{
+			"value" : "Function",
+			"type" : "sqlOption",
+			"sql" : "SELECT * FROM FUNCTMast",
+			"optValColName" : ["FunctID","FUNCT_NAME"],
+			"condition" : ["CheckSqlInjection"]
+		},
+		"12":{
+			"value" : "Grade",
+			"type" : "sqlOption",
+			"sql" : "SELECT * FROM GRDMast",
+			"optValColName" : ["GRDID","GRD_NAME"],
+			"condition" : ["CheckSqlInjection"]
+		},
+		"13":{
+			"value" : "Employee Type",
+			"type" : "sqlOption",
+			"sql" : "SELECT * FROM TypeMast",
+			"optValColName" : ["TYPEID","TYPE_NAME"],
+			"condition" : ["CheckSqlInjection"]
+		},
+		"14":{
+			"value" : "Manager",
+
+			"condition" : ["CheckSqlInjection"]
+		},
+		"15":{
+			"value" : "Functional Manager",
+
+			"condition" : ["CheckSqlInjection"]
+		},
+		"16":{
+			"value" : "DOJ",
+			"condition" : ["CheckSqlInjection"],
+			"mandatory" : true,
+			"dateformate":{"get":"dd-mm-yyyy","convert":"yyyy-mm-dd 00:00:00"}
+		},
+		"17":{
+			"value" : "DOB",
+			"condition" : ["CheckSqlInjection"],
+			"mandatory" : true,
+			"dateformate":{"get":"mm-dd-yyyy","convert":"yyyy-mm-dd 00:00:00"}
+		},
+		"18":{
+			"value" : "Nationality",
+			"condition" : ["CheckSqlInjection"]
+		},
+		"19":{
+			"value" : "Marital Status",
+			"condition" : ["CheckSqlInjection"],
+			"rangeValue":[["1","Married"],["2","Single"]]
+		},"20":{
+			"value" : "Blood Group",
+			"condition" : ["CheckSqlInjection"]
+		},
+		"21":{
+			"value" : "Company Email",
+			"condition" : ["CheckSqlInjection"]
+		},
+		"22":{
+			"value" : "Personal Email",
+			"condition" : ["CheckSqlInjection"]
+		},
+		"23":{
+			"value" : "Mobile",
+			"condition" : ["CheckSqlInjection"]
+		},"24":{
+			"value" : "Work Phone",
+			"condition" : ["CheckSqlInjection"]
+		},
+		"25":{
+			"value" : "Work Phone Ext",
+			"condition" : ["CheckSqlInjection"]
+		},
+		"26":{
+			"value" : "Present Address-Street",
+			"condition" : ["CheckSqlInjection"]
+		},
+		"27":{
+			"value" : "Present Address-City",
+			"condition" : ["CheckSqlInjection"]
+		},"28":{
+			"value" : "Present Address-State",
+			"condition" : ["CheckSqlInjection"]
+		},
+		"29":{
+			"value" : "Present Address-Pin",
+			"condition" : ["CheckSqlInjection"]
+		},
+		"30":{
+			"value" : "Present Address-Country",
+			"condition" : ["CheckSqlInjection"]
+		},
+		"31":{
+			"value" : "Present Address-Phone",
+			"condition" : ["CheckSqlInjection"]
+		},
+		"32":{
+			"value" : "Permanent Address-Street",
+			"condition" : ["CheckSqlInjection"]
+		},"33":{
+			"value" : "Permanent Address-City",
+			"condition" : ["CheckSqlInjection"]
+		},
+		"34":{
+			"value" : "Permanent Address-State",
+			"condition" : ["CheckSqlInjection"]
+		},
+		"35":{
+			"value" : "Permanent Address-Pin",
+			"condition" : ["CheckSqlInjection"]
+		},
+		"36":{
+			"value" : "Permanent Address-Country",
+			"condition" : ["CheckSqlInjection"]
+		},"37":{
+			"value" : "Permanent Address-Phone",
+			"condition" : ["CheckSqlInjection"]
+		},
+		"38":{
+			"value" : "Work Location",
+			"type" : "sqlOption",
+			"sql" : "SELECT * FROM WorkLocMast",
+			"optValColName" : ["WorkLocID","WLOC_NAME"],
+			"condition" : ["CheckSqlInjection"]
+		},
+		"39":{
+			"value" : "Salary Bank Code",
+			"condition" : ["CheckSqlInjection"]
+		},
+		"40":{
+			"value" : "Salary Acc. No",
+			"condition" : ["CheckSqlInjection"]
+		},
+		"41":{
+			"value" : "Reim. Bank Code",
+			"condition" : ["CheckSqlInjection"]
+		},"42":{
+			"value" : "Reim. Acc. No",
+			"condition" : ["CheckSqlInjection"]
+		},
+		"43":{
+			"value" : "Pan No.",
+			"condition" : ["CheckSqlInjection"],
+			"minRange" : 10,
+			"maxRange" : 10,
+			"mandatory" : true
+		},
+		"44":{
+			"value" : "Aadhar Card No.",
+			"condition" : ["CheckSqlInjection"],
+			"minRange" : 12,
+			"maxRange" : 12
+		},
+		"45":{
+			"value" : "Region",
+			"type" : "sqlOption",
+			"sql" : "SELECT * FROM RegnMast",
+			"optValColName" : ["REGNID","REGN_NAME"],
+			"condition" : ["CheckSqlInjection"]
+		},
+		"46":{
+			"value" : "Cost Centre",
+			"type" : "sqlOption",
+			"sql" : "SELECT * FROM CostMast",
+			"optValColName" : ["CostID","COST_NAME"],
+			"condition" : ["CheckSqlInjection"]
+		},
+		"47":{
+			"value" : "Process",
+			"type" : "sqlOption",
+			"sql" : "SELECT * FROM PROCMAST",
+			"optValColName" : ["PROCID","PROC_NAME"],
+			"condition" : ["CheckSqlInjection"]
+		},
+		"48":{
+			"value" : "Sub Bussiness Unit",
+			"type" : "sqlOption",
+			"sql" : "SELECT * FROM subBussMast",
+			"optValColName" : ["subBussid","subBussName"],
+			"condition" : ["CheckSqlInjection"]
+		},
+		"49":{
+			"value" : "Sub Function",
+			"type" : "sqlOption",
+			"sql" : "SELECT * FROM SubFunctMast",
+			"optValColName" : ["SubFunctID","SubFunct_NAME"],
+			"condition" : ["CheckSqlInjection"]
+		}
+	},
+	"database": [
+		{
+			"type" : "bulkInsert",
+			"table" : "hrdmast",
+			"key" : [["Emp_Code","Emp Code",{"condition":["NoDublicateValue"]}],["Emp_Title","Title"],["Emp_FName","First Name"],["Emp_MName","Middle Name"],["Emp_LName","Last Name"],["Sex","Gender"],["DOJ","DOJ"],["DOB","DOB"],["Nationality","Nationality"],["MStatus","Marital Status"],["Status_Code","Status"],["BloodGrp","Blood Group"],["OEMailID","Company Email"],["PEMailID","Personal Email"],["MobileNo","Mobile"],["MAddr2","Present Address-Street"],["MCity","Present Address-City"],["MState","Present Address-State"],["MPin","Present Address-Pin"],["MCountry","Present Address-Country"],["MPhoneNo","Present Address-Phone"],["PAddr1","Permanent Address-Street"],["PCity","Permanent Address-City"],["PState","Permanent Address-State"],["PPin","Permanent Address-Pin"],["PCountry","Permanent Address-Country"],["PPhoneNo","Permanent Address-Phone"],["PANNo","Pan No."],["AadharNo","Aadhar Card No."]]
+		},
+		{
+			"type" : "bulkInsert",
+			"table" : "hrdtran",
+			"key" : [["Emp_Code","Emp Code",{"condition":["NoDublicateValue"]}],["Trn_WEF","DOJ"],["Trn_Date","dateSelect12"],["Dsg_Code","Designation"],["Loc_Code","Location"],["Comp_code","Company Name"],["BussCode","Business Unit"],["FUNCT_CODE","Function"],["Grd_Code","Grade"],["Level_CODE","Level"],["Status_Code","Status"],["Type_Code","Employee Type"],["Mngr_Code","Manager"],["Mngr_Code2","Functional Manager"],["WLOC_CODE","Work Location"],["SMOP_Code","Salary Bank Code"],["SMOPNo","Salary Acc. No"],["RMOP_Code","Reim. Bank Code"],["RMOPNo","Reim. Acc. No"],["Regn_code","Region"],["Cost_code","Cost Centre"],["Proc_Code","Process"],["SUBBUSS_ID","Sub Bussiness Unit"],["SFunct_Code","Sub Function"]]
+		}
+
+
+	]
+}

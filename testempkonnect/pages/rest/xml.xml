@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<DocumentElement>
+    <row>
+        <Header>
+            <uid>EDP</uid>
+            <pwd>EDP</pwd>
+            <cid>TESTG4S</cid>
+            <WSType>WSDESIGMASTER</WSType>
+        </Header>
+    </row>
+    <row>
+    <C03_ORGANISATION_CODE>G4FLKGRD</C03_ORGANISATION_CODE>
+    <C12_POSITION_CODE>SUP_P1_N</C12_POSITION_CODE>
+    <DSG_NAME>SUP PUNE ZONE1 N</DSG_NAME>
+    <C29_LOCATION_CODE>PROGRD</C29_LOCATION_CODE>
+    </row>
+</DocumentElement>

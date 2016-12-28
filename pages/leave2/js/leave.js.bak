@@ -1,0 +1,120 @@
+var Leave={
+
+	init:function(){
+		$.ajax({
+                type: "POST",
+                url: "ajax/leave_function.php?type=showleave",
+                data: {},
+                success: function(result){
+                    //alert (result);
+                    
+                    $("#leave_b").html(result);
+                    					
+                }
+            });
+
+	},
+	initteam:function(){
+		var code=$('#L_team').val();
+		var type1=$('#T_team').val();
+		var start=$('#startDate').val();
+		var end=$('#endDate').val();
+		$.ajax({
+                type: "POST",
+                url: "ajax/leave_function.php?type=showteamleave",
+                data: {code:code,type1:type1,start:start,end:end},
+                success: function(result){
+                    //alert (result);
+                    
+                    $("#leave_b").html(result);
+                    
+					
+                }
+            });
+
+	},
+	showmyteam:function(){
+		$.ajax({
+                type: "POST",
+                url: "ajax/leave_function.php?type=showteam",
+                data: {},
+                success: function(result){
+                    //alert (result);
+                    
+                    $("#leave_team").html(result);
+                    Leave.leave_type();
+
+                }
+            });
+	},
+
+	leave_type:function(){
+		var code=$('#L_team').val();
+		//alert(code);
+		$.ajax({
+                type: "POST",
+                url: "ajax/leave_function.php?type=showtype",
+                data: {code:code},
+                success: function(result){
+                    //alert (result);
+                    
+                    $("#leave_type").html(result);
+
+                    Leave.initteam();
+					Leave.transaction();
+
+                }
+            });
+	},
+	transaction:function(){
+		var code=$('#L_team').val();
+		var type1=$('#T_team').val();
+		var start=$('#startDate').val();
+		var end=$('#endDate').val();
+		
+		$.ajax({
+                type: "POST",
+                url: "ajax/leave_function.php?type=showtran",
+                data: {code:code,type1:type1,start:start,end:end},
+                success: function(result){
+                    //alert (result);
+                    
+                    $("#sample_2").html(result);
+                    					
+                }
+            });
+	},
+	bal:function(){
+		$('#tab_1').removeClass("inactive").addClass("active");
+
+		$('#tab_2').addClass("inactive");
+		$('.tab1_col').css("border-bottom",'2px solid #5b9bd1');
+		$('.tab2_col').css("border-bottom",'none');
+		
+	},
+
+	tran:function(){
+		$('#tab_2').removeClass('inactive').addClass("active");
+		$('#tab_1').addClass( "inactive" );
+		$('.tab2_col').css("border-bottom",'2px solid #5b9bd1');
+		$('.tab1_col').css("border-bottom",'none');
+
+		
+		
+	},
+		myleave:function(){
+	$.ajax({
+                type: "POST",
+                url: "ajax/leave_function.php?type=showmyleave",
+                data: {},
+                success: function(result){
+                    //alert (result);
+                    
+                    $("#leave_b").html(result);
+                    					
+                }
+            });
+
+	
+	}
+}

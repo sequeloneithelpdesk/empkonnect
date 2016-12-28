@@ -1,0 +1,372 @@
+<?php
+include('../../db_conn.php');
+include('../../configdata.php');
+include('../leaveCal.php');
+session_start();
+$emp_code=$_SESSION['usercode'];
+
+$json = file_get_contents('../js/leave.json'); 
+  $data = json_decode($json,true);
+  if($_GET['type']=="showleave"){
+  $leave_b='';
+  
+ // print_r($data['Associates'][0]);
+//echo"<table><tr><td>Leave type</td><td>Leave</td></tr>";
+foreach ($data['Associates'][0] as $key => $value) {
+	# code...
+	//$avail=3;
+	$sql4="Select a.DOJ,a.DOC,a.DOB,a.MStatus,a.DOM,a.SEX,b.days from hrdmastqry a join (SELECT sum(LvDays) as days,Createdby FROM leave where Createdby='$emp_code' and status='02' and LvType='$key' and YEAR(Trn_Date) = YEAR(getDate()) group by Levkey,Createdby) b on a.Emp_Code=b.Createdby";
+	$result4=query($query, $sql4, $pa, $opt, $ms_db);
+	if($num($result4)==0){
+		$avail=0;
+		$DoL='';
+		$DoJ='';
+		$DoC='';
+		$status=1;
+
+	}
+	else{
+    $row2=$fetch($result4);
+    $avail=$row2['days'];
+    $status=$row2['MStatus'];
+    if($status==2){
+    	$DoL=$row2['DOM'];
+    }
+    else{
+    	$DoL=$row2['DOB'];
+    }
+    $DoJ=$row2['DOJ'];
+    $DoC=$row2['DOC'];
+
+	}
+
+	if($value['rules']['accumulation']==0){
+		$opening=0;
+	}
+	else{
+		$opening=12;
+	}
+	if($value['name']=='BTL'){
+		if($status==2){
+    	$Leave_Name='Anniversary Leave';
+    }
+    else{
+    	$Leave_Name='Birthday Leave';
+    }
+	}
+	else{
+		$Leave_Name=$value['name'];
+	}
+
+	$totall_day=getCL_SL($key,$value['day_limit'],$opening,$avail,$value['rules']['accumulation'],$DoL,$DoJ,$DoC);
+$leave_b.="<tr><td>".$Leave_Name."</td><td>";
+		$leave_b.=$opening;
+$leave_b.="</td><td>".$value['day_limit']."</td><td>".$avail."</td><td>".$totall_day."</td><td></td><td>".$totall_day."</td></tr>";
+	
+}
+
+echo$leave_b;
+  //print_r($data['Salaried']);
+}
+
+elseif($_GET['type']=="showteamleave"){
+  $leave_b='';
+  $code=$_POST['code'];
+  $type1=$_POST['type1'];
+  $start=$_POST['start'];
+  $end=$_POST['end'];
+ // print_r($data['Associates'][0]);
+//echo"<table><tr><td>Leave type</td><td>Leave</td></tr>";
+foreach ($data['Associates'][0] as $key => $value) {
+	# code...
+	//$avail=3;
+	$sql4="Select a.DOJ,a.DOC,a.DOB,a.MStatus,a.DOM,a.SEX,b.days from hrdmastqry a join (SELECT sum(LvDays) as days,Createdby FROM leave where Createdby='$code' and status='02' and LvType='$key' and YEAR(Trn_Date) = YEAR(getDate()) group by Levkey,Createdby) b on a.Emp_Code=b.Createdby";
+	$result4=query($query, $sql4, $pa, $opt, $ms_db);
+	if($num($result4)==0){
+		$avail=0;
+		$DoL='';
+		$DoJ='';
+		$DoC='';
+		$status=1;
+
+	}
+	else{
+    $row2=$fetch($result4);
+    $avail=$row2['days'];
+    $status=$row2['MStatus'];
+    if($status==2){
+    	$DoL=$row2['DOM'];
+    }
+    else{
+    	$DoL=$row2['DOB'];
+    }
+    $DoJ=$row2['DOJ'];
+    $DoC=$row2['DOC'];
+
+	}
+
+	if($value['rules']['accumulation']==0){
+		$opening=0;
+	}
+	else{
+		$opening=12;
+	}
+	if($value['name']=='BTL'){
+		if($status==2){
+    	$Leave_Name='Anniversary Leave';
+    }
+    else{
+    	$Leave_Name='Birthday Leave';
+    }
+	}
+	else{
+		$Leave_Name=$value['name'];
+	}
+
+if($type1=='all'){
+	$totall_day=getCL_SL($key,$value['day_limit'],$opening,$avail,$value['rules']['accumulation'],$DoL,$DoJ,$DoC);
+
+$leave_b.="<tr><td>".$Leave_Name."</td><td>";
+		$leave_b.=$opening;
+$leave_b.="</td><td>".$value['day_limit']."</td><td>".$avail."</td><td>".$totall_day."</td><td></td><td>".$totall_day."</td></tr>";
+}
+elseif ($key==$type1) {
+		# code...
+	$totall_day=getCL_SL($key,$value['day_limit'],$opening,$avail,$value['rules']['accumulation'],$DoL,$DoJ,$DoC);
+
+$leave_b.="<tr><td>".$Leave_Name."</td><td>";
+		$leave_b.=$opening;
+$leave_b.="</td><td>".$value['day_limit']."</td><td>".$avail."</td><td>".$totall_day."</td><td></td><td>".$totall_day."</td></tr>";
+
+	}
+	else{
+
+	}	
+}
+
+echo$leave_b;
+  //print_r($data['Salaried']);
+}
+
+
+elseif($_GET['type']=="showteam"){
+
+$sql="Select EMP_NAME,Emp_Code from hrdmastqry where MNGR_CODE=(select MNGR_CODE from hrdmastqry where Emp_Code='$emp_code')";
+	$result=query($query, $sql, $pa, $opt, $ms_db);
+$list='';
+$list.="<select id='L_team' class='form-control' onchange='Leave.leave_type()'>";
+	while ($row=$fetch($result)) {
+		# code...
+		$list.="<option value='".$row[1]."'" ;
+		if($row[1]==$emp_code){ 
+			$list.="selected";
+			 }
+			 $list.=">".$row[0]."(".$row[1].")</option>";
+
+	}
+	$list.="</select >";
+	echo $list;
+
+}
+
+elseif($_GET['type']=="showtype"){
+$code=$_POST['code'];
+
+$list='';
+
+$list.="<select id='T_team' class='form-control'><option value='all' selected>All</option>";
+foreach ($data['Associates'][0] as $key => $value) {
+
+$sql4="Select a.DOJ,a.DOC,a.DOB,a.MStatus,a.DOM,a.SEX,b.days from hrdmastqry a join (SELECT sum(LvDays) as days,Createdby FROM leave where Createdby='$code' and status='02' and LvType='$key' and YEAR(Trn_Date) = YEAR(getDate()) group by Levkey,Createdby) b on a.Emp_Code=b.Createdby";
+	$result4=query($query, $sql4, $pa, $opt, $ms_db);
+	if($num($result4)==0){
+		
+$status=0;
+	}
+	else{
+    $row2=$fetch($result4);
+    
+    $status=$row2['MStatus'];
+    
+	}
+	if($value['name']=='BTL'){
+		if($status==2){
+    	$Leave_Name='Anniversary Leave';
+    }
+    else{
+    	$Leave_Name='Birthday Leave';
+    }
+	}
+	else{
+		$Leave_Name=$value['name'];
+	}
+$list.="<option value='".$key."'>".$Leave_Name."</option>";
+
+}
+$list.="</select >";
+	echo $list;
+
+}
+elseif($_GET['type']=="showtran"){
+$code=$_POST['code'];
+  $type1=$_POST['type1'];
+  $start=$_POST['start'];
+  $end=$_POST['end'];
+foreach ($data['Associates'][0] as $key => $value) {
+$sql4="Select a.DOJ,a.DOC,a.DOB,a.MStatus,a.DOM,a.SEX,b.days from hrdmastqry a join (SELECT sum(LvDays) as days,Createdby FROM leave where Createdby='$emp_code' and status='02' and LvType='$key' and YEAR(Trn_Date) = YEAR(getDate()) group by Levkey,Createdby) b on a.Emp_Code=b.Createdby";
+	$result4=query($query, $sql4, $pa, $opt, $ms_db);
+	if($num($result4)==0){
+		$avail=0;
+		$DoL='';
+		$DoJ='';
+		$DoC='';
+		$status=1;
+
+	}
+	else{
+    $row2=$fetch($result4);
+    $avail=$row2['days'];
+    $status=$row2['MStatus'];
+    if($status==2){
+    	$DoL=$row2['DOM'];
+    }
+    else{
+    	$DoL=$row2['DOB'];
+    }
+    $DoJ=$row2['DOJ'];
+    $DoC=$row2['DOC'];
+
+	}
+
+	if($value['rules']['accumulation']==0){
+		$opening=0;
+	}
+	else{
+		$opening=12;
+	}
+	if($value['name']=='BTL'){
+		if($status==2){
+    	$Leave_Name='Anniversary Leave';
+    }
+    else{
+    	$Leave_Name='Birthday Leave';
+    }
+	}
+	else{
+		$Leave_Name=$value['name'];
+	}
+}
+	$totall_day=getCL_SL($key,$value['day_limit'],$opening,$avail,$value['rules']['accumulation'],$DoL,$DoJ,$DoC);
+
+
+
+$sql="SELECT LvDays,trn_Date,LvFrom,LvTo,Createdby,ApprovedBy FROM leave where Createdby='$code' and status='02' and LvType='$key' and  flag='1' and (LvFrom between $start and $end) group by Levkey,Createdby order by trn_Date desc";
+	$result=query($query, $sql, $pa, $opt, $ms_db);
+$list='';
+$list.="<thead><tr>
+                                                        <th>Date</th>
+                                                        <th>Transaction Details</th>
+                                                        <th>Action by</th>
+                                                        <th>Decrease</th>
+                                                        <th>Balance</th>
+                                                        
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody ></tbody>";
+     //$total_days= getCL_SL($key,$value['day_limit'],$opening,$avail,$value['rules']['accumulation'],$DoL,$DoJ,$DoC);
+	while ($row=$fetch($result)) {
+		# code...
+		$list.="<tr><td>".$row['trn_Data']."</td><td>".$row['LvFrom'].$row['LvTo']."</td><td>".$row['ApprovedBy']."</td><td>".$row['LvDays']."</td><td>".$total_days."</td></tr>" ;
+		if($row[1]==$emp_code){ 
+			$list.="selected";
+			 }
+			 $list.=">".$row[0]."(".$row[1].")</option>";
+
+	}
+	$list.="</select >";
+	echo $list;
+
+}
+
+elseif($_GET['type']=="showmyleave"){
+  $leave_b='';
+  
+ // print_r($data['Associates'][0]);
+//echo"<table><tr><td>Leave type</td><td>Leave</td></tr>";
+foreach ($data['Associates'][0] as $key => $value) {
+	# code...
+	//$avail=3;
+	 $sql4="Select REPLACE(CONVERT(VARCHAR(10),a.DOJ,102),'.','-') AS DOJ,REPLACE(CONVERT(VARCHAR(10),a.DOC,102),'.','-') AS DOC,REPLACE(CONVERT(VARCHAR(10),a.DOB,102),'.','-') AS DOB,a.MStatus,REPLACE(CONVERT(VARCHAR(10),a.DOM,102),'.','-') AS DOM,a.SEX from hrdmastqry a where emp_code='$emp_code'";
+if($key=='SL'){
+$type=3;
+}
+else{
+$type=$key;
+}
+	echo $sql2="SELECT LvDays ,Createdby,Levkey FROM leave where Createdby='$emp_code' and status='02' and LvType='$type' and YEAR(Trn_Date) = YEAR(getDate()) group by Levkey,Createdby,LvDays";
+	$result4=query($query, $sql4, $pa, $opt, $ms_db);
+		$result2=query($query, $sql2, $pa, $opt, $ms_db);
+
+		//$num($result4);
+	if($num($result4)==0){
+		
+		$DoL='';
+		$DoJ='';
+		$DoC='';
+		$status=1;
+
+	}
+	else{
+    $row2=$fetch($result4);
+    $status=$row2['MStatus'];
+    if($status==2){
+    	$DoL=$row2['DOM'];
+    }
+    else{
+    	$DoL=$row2['DOB'];
+    }
+    $DoJ=$row2['DOJ'];
+    $DoC=$row2['DOC'];
+
+	}
+	if($num($result2)==0){
+		$avail=0;
+
+	}
+	else{
+		$row4=$fetch($result2);
+    $avail=$row4['LvDays'];
+
+	}
+
+	if($value['rules']['accumulation']==0){
+		$opening=0;
+	}
+	else{
+		$opening=12;
+	}
+	if($value['name']=='BTL'){
+		if($status==2){
+    	$Leave_Name='Anniversary Leave';
+    }
+    else{
+    	$Leave_Name='Birthday Leave';
+    }
+	}
+	else{
+		$Leave_Name=$value['name'];
+	}
+
+	$totall_day=getCL_SL($key,$value['day_limit'],$opening,$avail,$value['rules']['accumulation'],$DoL,$DoJ,$DoC);
+$leave_b.="<div class='col-md-6'>".$Leave_Name."</div><div class='col-md-6' id='".$key."'>".$totall_day."</div>";
+		
+
+}
+
+echo$leave_b;
+  //print_r($data['Salaried']);
+}
+
+
+?>
+

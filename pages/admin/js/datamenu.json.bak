@@ -1,0 +1,61 @@
+[{"id":1234,
+	"text":"Business Unit",
+	"children":[
+		
+	],
+	"icon":"icon-user-follow",
+	"state":{"selected" : false,"opened":false }
+},
+{"id":212,
+	"text":"Location",
+	"children":[
+		
+	],
+	"icon":"icon-user-follow",
+	"state":{"selected" : false,"opened":false }
+},
+
+{"id":312,
+	"text":"Working Location",
+	"children":[
+		
+	],
+	"icon":"icon-user-follow",
+	"state":{"selected" : false,"opened":false }
+},
+
+{"id":412,
+	"text":"Function",
+	"children":[
+		
+	],
+	"icon":"icon-user-follow",
+	"state":{"selected" : false,"opened":false }
+},
+
+{"id":512,
+	"text":"Function Type",
+	"children":[
+		
+	],
+	"icon":"icon-user-follow",
+	"state":{"selected" : false,"opened":false }
+},
+{"id":612,
+	"text":"Grade",
+	"children":[
+		
+	],
+	"icon":"icon-user-follow",
+	"state":{"selected" : false,"opened":false }
+},
+
+{"id":712,
+	"text":"Employee Type",
+	"children":[
+		
+	],
+	"icon":"icon-user-follow",
+	"state":{"selected" : false,"opened":false }
+}
+]

@@ -1,0 +1,650 @@
+<?php
+include '../../db_conn.php';
+include ('../../configdata.php');
+
+if($_POST['type']=="outOnWork")
+{
+
+    $fromDate= dateConversion($_POST['fromDate']);
+    $natureofwork= $_POST['natureofwork'];
+    $reason = $_POST['reason'];
+    $natureofworkcause= $_POST['natureofworkcause'];
+    $intime=$_POST['inHour'].':'.$_POST['inMinute'].':'.$_POST['inap'];
+    $outtime=$_POST['outHour'].':'.$_POST['outMinute'].':'.$_POST['outap'];
+    $userid=$_POST['userid'];
+    $mngrcode1=$_POST['mngrcode1'];
+
+
+
+    if($_POST['toDate']){
+        $toDate= dateConversion($_POST['toDate']);
+    }else{
+        $toDate="00:00:00";
+    }
+
+    if($_POST['weeklyoff']){
+        $weeklyoff=$_POST['weeklyoff'];
+    }else{
+        $weeklyoff="";
+    }
+
+    if($_POST['leavedays']){
+        $leavedays= $_POST['leavedays'];
+    }else{
+        $leavedays="";
+    }
+
+
+   $sql="insert into outOnWorkRequest (date_from, date_to, natureOfWorkCause,natureOfWork,excludeWeeklyOff,excludeLeaveDays,reason,CreatedBy,approvedBy,intime,outtime,action_status) VALUES 
+
+          ('$fromDate','$toDate','$natureofworkcause','$natureofwork','$weeklyoff','$leavedays','$reason','$userid','$mngrcode1','$intime','$outtime','1')";
+    $result = query($query,$sql,$pa,$opt,$ms_db);
+
+    if($result){
+        echo 1;
+    }else{
+        echo 0;
+    }
+
+
+  /*  echo $natureofworkcause;
+    echo $weeklyoff;
+    echo $leavedays;
+    echo $fromDate;
+    echo $toDate;
+    echo $natureofwork;
+    echo $reason;
+
+    echo $_POST['inHour'];
+    echo $_POST['inMinute'];
+    echo $_POST['inap'];
+
+    echo $_POST['outHour'];
+    echo $_POST['outMinute'];
+    echo $_POST['outap'];*/
+}
+
+else if($_POST['type']=="pastAttendance"){
+    
+
+
+    $fromDate= dateConversion($_POST['fromDate']);
+    $notMarkingReas= $_POST['notMarkingReas'];
+    $remarks = $_POST['remarks'];
+    $intime=$_POST['inHour'].':'.$_POST['inMinute'].':'.$_POST['inap'];
+    $outtime=$_POST['outHour'].':'.$_POST['outMinute'].':'.$_POST['outap'];
+    $userid=$_POST['userid'];
+    $mngrcode1=$_POST['mngrcode1'];
+
+
+    if($_POST['toDate']){
+        $toDate= dateConversion($_POST['toDate']);
+    }else{
+        $toDate="";
+    }
+
+    if($_POST['inDate']){
+        $inDate=dateConversion($_POST['inDate']);
+    }else{
+        $inDate="";
+    }
+
+    if($_POST['outDate']){
+        $outDate=dateConversion($_POST['outDate']);
+    }else{
+        $outDate="";
+    }
+
+
+    $sql="insert into markPastAttendance (date_from, date_to,inDate,outDate, notMarkingReason,remarks,intime,outtime,CreatedBy,approvedBy,action_status) VALUES 
+          ('$fromDate','$toDate','$inDate','$outDate','$notMarkingReas','$remarks','$intime','$outtime','$userid','$mngrcode1','1')";
+    $result = query($query,$sql,$pa,$opt,$ms_db);
+
+    if($result){
+        echo 1;
+    }else{
+        echo 0;
+    }
+}
+
+
+else if($_POST['type']=="allcheck"){
+
+    $userCode=$_POST['userCode'];
+    $status=$_POST['status'];
+    
+    $sql="select outWorkId from outOnWorkRequest  WHERE approvedBy='$userCode' and action_status = '$status'";
+    $res=query($query,$sql,$pa,$opt,$ms_db);
+    $count = $num($res);
+    if($count == 1){
+        $row=$fetch($res);
+       echo $row['outWorkId'];
+   }else{
+    while ($row=$fetch($res)) {
+         echo $row['outWorkId'].",";
+    }
+   }
+    
+}
+
+else if($_POST['type']=="mulcheck"){
+
+
+    $userCode=$_POST['userCode'];
+    $inputval=$_POST['inputval'];
+    $status=$_POST['status'];
+     $sql="update outOnWorkRequest set action_status='$status' WHERE approvedBy='$userCode' and outWorkId IN ($inputval)";
+    $res=query($query,$sql,$pa,$opt,$ms_db);
+    if($res){
+        echo 1;
+    }else{
+        echo 0;
+    }
+}
+
+
+elseif ($_POST['type']=="subCancelStatus") {
+    $id=$_POST['id'];
+    $sql="update outOnWorkRequest set action_status='4' where outWorkId='$id'";
+    $res=query($query,$sql,$pa,$opt,$ms_db);
+    if($res){
+        echo 1;
+    }else{
+        echo 0;
+    }
+   
+}
+
+elseif ($_POST['type'] == "searchMyDate") {
+    $fromDate= $_POST['fromDate'];
+    $toDate = $_POST['toDate'];
+    $loginUser = $_POST['code'];
+    
+    if ($fromDate == "" && $toDate == "") {
+            $sql="select *,convert(varchar(10),date_from,103)as date_from, convert(varchar(10),date_to,103)as date_to from outOnWorkRequest where CreatedBy='$loginUser'";
+        } 
+       elseif ($fromDate=="") {
+            $sql="select *,convert(varchar(10),date_from,103)as date_from, convert(varchar(10),date_to,103)as date_to from outOnWorkRequest where CreatedBy='$loginUser'and date_to='$toDate'";
+        }elseif($toDate==""){
+        $sql="select *,convert(varchar(10),date_from,103)as date_from, convert(varchar(10),date_to,103)as date_to from outOnWorkRequest where CreatedBy='$loginUser'and date_from='$fromDate'";
+        }
+        else{
+            $sql="select *,convert(varchar(10),date_from,103)as date_from, convert(varchar(10),date_to,103)as date_to from outOnWorkRequest where CreatedBy='$loginUser'and date_from='$fromDate' and date_to='$toDate'";
+        }
+            
+            $res=query($query,$sql,$pa,$opt,$ms_db);
+            if($res){    
+                $i=0;
+                while($row=$fetch($res)){
+                    $mngrcode=$row['approvedBy'];
+                    $sql1="select EMP_NAME from HrdMastQry WHERE Emp_Code='$mngrcode'";
+                    $res1=query($query,$sql1,$pa,$opt,$ms_db);
+                    $data1=$fetch($res1);
+
+                 echo" <tr>
+                            <td>
+                                ".$data1['EMP_NAME']."  
+                            </td>
+                            <td>
+                                  ".$row['date_from']."
+                            </td>
+                            <td>
+                                ".$row['natureOfWorkCause']."
+                            </td>
+                            <td>";
+                            if($row['action_status'] == "1"){
+                            echo"<a class='myod' data-toggle='modal' href='#large' 
+                                onclick='getmyodId('".$row['outWorkId']."','1','".$loginUser."')'>
+                                    <span class='label label-sm bg-blue-steel'>
+                                    Pending </span>
+                                </a> ";   
+                                }else if($row['action_status'] == "2") {
+                                echo" <a class='myod' data-toggle='modal' href='#large'
+                                    onclick='getmyodId('".$row['outWorkId']."','2','".$loginUser."')'>
+                                    <span class='label label-sm label-success'>
+                                   Approved
+                                     </span>
+                                 </a>";
+                                } else if($row['action_status'] == "3") {
+                                echo "<a class='myod' data-toggle='modal' href='#large'
+                                    onclick='getmyodId('".$row['outWorkId']."','3','".$loginUser."')'>
+                                    <span class='label label-sm label-danger'>
+                                   Rejected
+                                 </span>
+                                 </a>";
+                                } else if($row['action_status'] == "4") {
+                                echo"<a class='myod' data-toggle='modal' href='#large'
+                                    onclick='getmyodId('".$row['outWorkId']."','4','".$loginUser."')'>
+                                    <span class='label label-sm bg-grey-cascade'>
+                                   Cancelled
+                                 </span>
+                                 </a>";
+                                }
+                                        
+                              echo"</td>
+                            </tr>";
+                            $i++;
+
+                }
+            }
+        
+}
+
+
+elseif ($_POST['type'] == "searchDate") {
+    $fromDate= $_POST['fromDate'];
+    $toDate = $_POST['toDate'];
+    $loginUser = $_POST['code'];
+    
+    if ($fromDate == "" && $toDate == "") {
+         echo   $sql="select *,convert(varchar(10),date_from,103)as date_from, convert(varchar(10),date_to,103)as date_to from outOnWorkRequest where approvedBy='$loginUser'";
+        } 
+       elseif ($fromDate=="") {
+         echo   $sql="select *,convert(varchar(10),date_from,103)as date_from, convert(varchar(10),date_to,103)as date_to from outOnWorkRequest where approvedBy='$loginUser'and date_to='$toDate'";
+        }elseif($toDate==""){
+       echo $sql="select *,convert(varchar(10),date_from,103)as date_from, convert(varchar(10),date_to,103)as date_to from outOnWorkRequest where approvedBy='$loginUser'and date_from='$fromDate'";
+        }
+        else{
+         echo   $sql="select *,convert(varchar(10),date_from,103)as date_from, convert(varchar(10),date_to,103)as date_to from outOnWorkRequest where approvedBy='$loginUser'and date_from='$fromDate' and date_to='$toDate'";
+        }
+            
+            $res=query($query,$sql,$pa,$opt,$ms_db);
+            if($res){    
+                $i=0;
+                while($row=$fetch($res)){
+                    $mngrcode=$row['CreatedBy'];
+                    $sql1="select EMP_NAME from HrdMastQry WHERE Emp_Code='$mngrcode'";
+                    $res1=query($query,$sql1,$pa,$opt,$ms_db);
+                    $data1=$fetch($res1);
+
+                 echo" <tr>";
+                             if( $row['action_status']== 2 || $row['action_status']== 3 || $row['action_status']== 4){
+                                  echo"  <td></td>";
+                                }else { 
+                               echo" <td><input type='checkbox' class='checkboxes' id='Mulcheck".$i." onclick='mulCheck('Mulcheck".$i."');'' value='".$row['outWorkId']."'/>
+                                </td>";
+                                 }
+                        echo" <td>
+                                ".$data1['EMP_NAME']."  
+                            </td>
+                            <td>
+                                  ".$row['date_from']."
+                            </td>
+                            <td>
+                                ".$row['natureOfWorkCause']."
+                            </td>
+                            <td>";
+                            if($row['action_status'] == "1"){?>
+                            <a class='myod' data-toggle='modal' href='#large' 
+                                onclick="getmyodId('<?php echo $row['outWorkId'];?>','1','<?php echo $loginUser;?>');">
+                                    <span class='label label-sm bg-blue-steel'>
+                                    Pending </span>
+                                </a> <?php   
+                                }else if($row['action_status'] == "2") {?>
+                                 <a class='myod' data-toggle='modal' href='#large'
+                                    onclick="getmyodId('<?php echo $row['outWorkId']?>','2','<?php echo $loginUser;?>');">
+                                    <span class='label label-sm label-success'>
+                                   Approved
+                                     </span>
+                                 </a><?php 
+                                } else if($row['action_status'] == "3") {?>
+                                <a class='myod' data-toggle='modal' href='#large'
+                                    onclick="getmyodId('<?php echo $row['outWorkId'];?>','3','<?php echo $loginUser;?>');">
+                                    <span class='label label-sm label-danger'>
+                                   Rejected
+                                 </span>
+                                 </a><?php
+                                } else if($row['action_status'] == "4") {?>
+                                <a class='myod' data-toggle='modal' href='#large'
+                                    onclick="getmyodId('<?php echo $row['outWorkId'];?>','4',
+                                        '<?php echo $loginUser;?>');">
+                                    <span class='label label-sm bg-grey-cascade'>
+                                   Cancelled
+                                 </span>
+                                 </a><?php
+                                }?>
+                             <?php           
+                             echo"</td>
+                              <td></td>
+                            </tr>";
+                            $i++;
+
+                }
+            }
+        
+}
+
+elseif ($_POST['type'] == "searchMyStatus") {
+    $statusid= $_POST['statusid'];
+    $loginUser=$_POST['code'];
+     $sql="select *,CONVERT (VARCHAR(10),date_from,103 ) as date_from , CONVERT (VARCHAR(10),date_to,103 ) as date_to from  outOnWorkRequest where action_status='$statusid' and CreatedBy='$loginUser'";
+    $res=query($query,$sql,$pa,$opt,$ms_db);
+    while($row= $fetch($res)){
+         
+        $mngrcode=$row['approvedBy'];
+        $sql1="select EMP_NAME from HrdMastQry WHERE Emp_Code='$mngrcode'";
+        $res1=query($query,$sql1,$pa,$opt,$ms_db);
+        $data1=$fetch($res1);
+
+                echo"<tr>
+
+                    <td>
+                        ".$data1['EMP_NAME']."  
+                    </td>
+                    <td>
+                          ".$row['date_from']."
+                    </td>
+                    <td>
+                        ".$row['natureOfWorkCause']."
+                    </td>
+                    <td>";
+                    if($row['action_status'] == "1"){
+                    echo"<a class='myod' data-toggle='modal' href='#large' 
+                        onclick='getmyodId('".$row['outWorkId']."','1','".$loginUser."')'>
+                            <span class='label label-sm bg-blue-steel'>
+                            Pending </span>
+                        </a> ";   
+                        }else if($row['action_status'] == "2") {
+                        echo" <a class='myod' data-toggle='modal' href='#large'
+                            onclick='getmyodId('".$row['outWorkId']."','2','".$loginUser."')'>
+                            <span class='label label-sm label-success'>
+                           Approved
+                             </span>
+                         </a>";
+                        } else if($row['action_status'] == "3") {
+                        echo "<a class='myod' data-toggle='modal' href='#large'
+                            onclick='getmyodId('".$row['outWorkId']."','3','".$loginUser."')'>
+                            <span class='label label-sm label-danger'>
+                           Rejected
+                         </span>
+                         </a>";
+                        } else if($row['action_status'] == "4") {
+                        echo"<a class='myod' data-toggle='modal' href='#large'
+                            onclick='getmyodId('".$row['outWorkId']."','4','".$loginUser."')'>
+                            <span class='label label-sm bg-grey-cascade'>
+                           Cancelled
+                         </span>
+                         </a>";
+                        }
+                                
+                      echo"</td>
+                    </tr>";
+                            $i++;        
+    }
+}
+
+elseif ($_POST['type'] == "searchStatus") {
+    $statusid= $_POST['statusid'];
+    $loginUser=$_POST['code'];
+     $sql="select *,CONVERT (VARCHAR(10),date_from,103 ) as date_from , CONVERT (VARCHAR(10),date_to,103 ) as date_to from  outOnWorkRequest where action_status='$statusid' and approvedBy='$loginUser'";
+    $res=query($query,$sql,$pa,$opt,$ms_db);
+    $i=0;
+    while($row= $fetch($res)){
+         
+        $mngrcode=$row['CreatedBy'];
+        $sql1="select EMP_NAME from HrdMastQry WHERE Emp_Code='$mngrcode'";
+        $res1=query($query,$sql1,$pa,$opt,$ms_db);
+        $data1=$fetch($res1);
+
+                echo"<tr>";
+
+                    if( $row['action_status']== 2 || $row['action_status']== 3 || $row['action_status']== 4){
+                                  echo"  <td></td>";
+                                }else { 
+                               echo" <td><input type='checkbox' class='checkboxes' id='Mulcheck".$i." onclick='mulCheck('Mulcheck".$i."');'' value='".$row['outWorkId']."'/>
+                                </td>";
+                                 }
+                 echo"   <td>
+                        ".$data1['EMP_NAME']."  
+                    </td>
+                    <td>
+                          ".$row['date_from']."
+                    </td>
+                    <td>
+                        ".$row['natureOfWorkCause']."
+                    </td>
+                    <td>";
+                    if($row['action_status'] == "1"){?>
+                            <a class='myod' data-toggle='modal' href='#large' 
+                                onclick="getmyodId('<?php echo $row['outWorkId'];?>','1','<?php echo $loginUser;?>');">
+                                    <span class='label label-sm bg-blue-steel'>
+                                    Pending </span>
+                                </a> <?php   
+                                }else if($row['action_status'] == "2") {?>
+                                 <a class='myod' data-toggle='modal' href='#large'
+                                    onclick="getmyodId('<?php echo $row['outWorkId']?>','2','<?php echo $loginUser;?>');">
+                                    <span class='label label-sm label-success'>
+                                   Approved
+                                     </span>
+                                 </a><?php 
+                                } else if($row['action_status'] == "3") {?>
+                                <a class='myod' data-toggle='modal' href='#large'
+                                    onclick="getmyodId('<?php echo $row['outWorkId'];?>','3','<?php echo $loginUser;?>');">
+                                    <span class='label label-sm label-danger'>
+                                   Rejected
+                                 </span>
+                                 </a><?php
+                                } else if($row['action_status'] == "4") {?>
+                                <a class='myod' data-toggle='modal' href='#large'
+                                    onclick="getmyodId('<?php echo $row['outWorkId'];?>','4',
+                                        '<?php echo $loginUser;?>');">
+                                    <span class='label label-sm bg-grey-cascade'>
+                                   Cancelled
+                                 </span>
+                                 </a><?php
+                                }?>
+                       <?php         
+                      echo"</td>
+                      <td></td>
+                    </tr>";
+                            $i++;        
+    }
+}
+
+elseif ($_POST['type'] == "searchMyName") {
+    $codename= $_POST['codename'];
+  $loginUser=$_POST['code'];
+   $sql="select *,CONVERT (VARCHAR(10),date_from,103 ) as date_from , CONVERT (VARCHAR(10),date_to,103 ) as date_to from  outOnWorkRequest where CreatedBy='$loginUser' and (approvedBy in (select emp_code from HrdMastQry where Emp_FName='$codename' or Emp_MName='$codename' or Emp_LName='$codename') or approvedBy='$codename')";
+    $res=query($query,$sql,$pa,$opt,$ms_db);
+    while($row= $fetch($res)){
+        $usercode=$row['approvedBy'];
+        $sql1="select EMP_NAME from HrdMastQry WHERE Emp_Code='$usercode'";
+        $res1=query($query,$sql1,$pa,$opt,$ms_db);
+        $data1=$fetch($res1);
+        $i=0;
+        echo"<tr>
+
+                    <td>
+                        ".$data1['EMP_NAME']."  
+                    </td>
+                    <td>
+                          ".$row['date_from']."
+                    </td>
+                    <td>
+                        ".$row['natureOfWorkCause']."
+                    </td>
+                    <td>";
+                    if($row['action_status'] == "1"){
+                    echo"<a class='myod' data-toggle='modal' href='#large' 
+                        onclick='getmyodId('".$row['outWorkId']."','1','".$loginUser."')'>
+                            <span class='label label-sm bg-blue-steel'>
+                            Pending </span>
+                        </a> ";   
+                        }else if($row['action_status'] == "2") {
+                        echo" <a class='myod' data-toggle='modal' href='#large'
+                            onclick='getmyodId('".$row['outWorkId']."','2','".$loginUser."')'>
+                            <span class='label label-sm label-success'>
+                           Approved
+                             </span>
+                         </a>";
+                        } else if($row['action_status'] == "3") {
+                        echo "<a class='myod' data-toggle='modal' href='#large'
+                            onclick='getmyodId('".$row['outWorkId']."','3','".$loginUser."')'>
+                            <span class='label label-sm label-danger'>
+                           Rejected
+                         </span>
+                         </a>";
+                        } else if($row['action_status'] == "4") {
+                        echo"<a class='myod' data-toggle='modal' href='#large'
+                            onclick='getmyodId('".$row['outWorkId']."','4','".$loginUser."')'>
+                            <span class='label label-sm bg-grey-cascade'>
+                           Cancelled
+                         </span>
+                         </a>";
+                        }
+                                
+                      echo"</td>
+                    </tr>";
+                            $i++;        
+   }
+}
+
+elseif ($_POST['type'] == "searchApproverName") {
+  $codename= $_POST['codename'];
+  $loginUser=$_POST['code'];
+   $sql="select *,CONVERT (VARCHAR(10),date_from,103 ) as date_from , CONVERT (VARCHAR(10),date_to,103 ) as date_to from  outOnWorkRequest where approvedBy='$loginUser' and (approvedBy in (select emp_code from HrdMastQry where Emp_FName='$codename' or Emp_MName='$codename' or Emp_LName='$codename') or approvedBy='$codename')";
+    $res=query($query,$sql,$pa,$opt,$ms_db);
+    while($row= $fetch($res)){
+        $usercode=$row['CreatedBy'];
+        $sql1="select EMP_NAME from HrdMastQry WHERE Emp_Code='$usercode'";
+        $res1=query($query,$sql1,$pa,$opt,$ms_db);
+        $data1=$fetch($res1);
+        $i=0;
+        echo"<tr>";
+                    if( $row['action_status']== 2 || $row['action_status']== 3 || $row['action_status']== 4){
+                                  echo"  <td></td>";
+                                }else { 
+                               echo" <td><input type='checkbox' class='checkboxes' id='Mulcheck".$i." onclick='mulCheck('Mulcheck".$i."');'' value='".$row['outWorkId']."'/>
+                                </td>";
+                                 }
+               echo"<td>
+                        ".$data1['EMP_NAME']."  
+                    </td>
+                    <td>
+                          ".$row['date_from']."
+                    </td>
+                    <td>
+                        ".$row['natureOfWorkCause']."
+                    </td>
+                    <td>";
+                     if($row['action_status'] == "1"){?>
+                            <a class='myod' data-toggle='modal' href='#large' 
+                                onclick="getmyodId('<?php echo $row['outWorkId'];?>','1','<?php echo $loginUser;?>');">
+                                    <span class='label label-sm bg-blue-steel'>
+                                    Pending </span>
+                                </a> <?php   
+                                }else if($row['action_status'] == "2") {?>
+                                 <a class='myod' data-toggle='modal' href='#large'
+                                    onclick="getmyodId('<?php echo $row['outWorkId']?>','2','<?php echo $loginUser;?>');">
+                                    <span class='label label-sm label-success'>
+                                   Approved
+                                     </span>
+                                 </a><?php 
+                                } else if($row['action_status'] == "3") {?>
+                                <a class='myod' data-toggle='modal' href='#large'
+                                    onclick="getmyodId('<?php echo $row['outWorkId'];?>','3','<?php echo $loginUser;?>');">
+                                    <span class='label label-sm label-danger'>
+                                   Rejected
+                                 </span>
+                                 </a><?php
+                                } else if($row['action_status'] == "4") {?>
+                                <a class='myod' data-toggle='modal' href='#large'
+                                    onclick="getmyodId('<?php echo $row['outWorkId'];?>','4',
+                                        '<?php echo $loginUser;?>');">
+                                    <span class='label label-sm bg-grey-cascade'>
+                                   Cancelled
+                                 </span>
+                                 </a><?php
+                                }?>
+                       <?php         
+                                
+                      echo"</td>
+                      <td></td>
+                    </tr>";
+                            $i++;        
+   }
+}
+
+elseif ($_POST['type'] == "searchRequesterName") {
+    $codename= $_POST['codename'];
+  $loginUser=$_POST['code'];
+   $sql="select *,CONVERT (VARCHAR(10),date_from,103 ) as date_from , CONVERT (VARCHAR(10),date_to,103 ) as date_to from  outOnWorkRequest where approvedBy='$loginUser' and (CreatedBy in (select emp_code from HrdMastQry where Emp_FName='$codename' or Emp_MName='$codename' or Emp_LName='$codename') or CreatedBy='$codename')";
+    $res=query($query,$sql,$pa,$opt,$ms_db);
+    while($row= $fetch($res)){
+        $usercode=$row['CreatedBy'];
+        $sql1="select EMP_NAME from HrdMastQry WHERE Emp_Code='$usercode'";
+        $res1=query($query,$sql1,$pa,$opt,$ms_db);
+        $data1=$fetch($res1);
+        $i=0;
+        echo"<tr>";
+                    if( $row['action_status']== 2 || $row['action_status']== 3 || $row['action_status']== 4){
+                                  echo"  <td></td>";
+                                }else { 
+                               echo" <td><input type='checkbox' class='checkboxes' id='Mulcheck".$i." onclick='mulCheck('Mulcheck".$i."');'' value='".$row['outWorkId']."'/>
+                                </td>";
+                                 }
+               echo"<td>
+                        ".$data1['EMP_NAME']."  
+                    </td>
+                    <td>
+                          ".$row['date_from']."
+                    </td>
+                    <td>
+                        ".$row['natureOfWorkCause']."
+                    </td>
+                    <td>";
+                     if($row['action_status'] == "1"){?>
+                            <a class='myod' data-toggle='modal' href='#large' 
+                                onclick="getmyodId('<?php echo $row['outWorkId'];?>','1','<?php echo $loginUser;?>');">
+                                    <span class='label label-sm bg-blue-steel'>
+                                    Pending </span>
+                                </a> <?php   
+                                }else if($row['action_status'] == "2") {?>
+                                 <a class='myod' data-toggle='modal' href='#large'
+                                    onclick="getmyodId('<?php echo $row['outWorkId']?>','2','<?php echo $loginUser;?>');">
+                                    <span class='label label-sm label-success'>
+                                   Approved
+                                     </span>
+                                 </a><?php 
+                                } else if($row['action_status'] == "3") {?>
+                                <a class='myod' data-toggle='modal' href='#large'
+                                    onclick="getmyodId('<?php echo $row['outWorkId'];?>','3','<?php echo $loginUser;?>');">
+                                    <span class='label label-sm label-danger'>
+                                   Rejected
+                                 </span>
+                                 </a><?php
+                                } else if($row['action_status'] == "4") {?>
+                                <a class='myod' data-toggle='modal' href='#large'
+                                    onclick="getmyodId('<?php echo $row['outWorkId'];?>','4',
+                                        '<?php echo $loginUser;?>');">
+                                    <span class='label label-sm bg-grey-cascade'>
+                                   Cancelled
+                                 </span>
+                                 </a><?php
+                                }?>
+                       <?php         
+                                
+                      echo"</td>
+                      <td></td>
+                    </tr>";
+                            $i++;  
+            }      
+}
+
+function dateConversion($sDate){
+
+    $aDate = explode('/', $sDate);
+
+    @$sMySQLTimestamp = sprintf(
+        '%s-%s-%s 00:00:00',
+        @$aDate[2],
+        @$aDate[1],
+        @$aDate[0]
+    );
+
+    return $sMySQLTimestamp;
+
+}
+
+
+?>

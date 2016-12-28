@@ -1,0 +1,96 @@
+<?php
+include '../../db_conn.php';
+//echo @$_POST['type'];
+
+
+if($_POST['type']=="statusVise")
+{
+    $statusCode= $_POST['status_code1'];
+    $sql="select * from HrdMastQry where Status_Code='$statusCode' ";
+    $result =  sqlsrv_query($conn,$sql, array(), array( "Scrollable" => 'static' ));
+    echo"<option value='all'>All</option>";
+    while($row = sqlsrv_fetch_array($result)) {
+
+        echo "<option value='".$row['Emp_Code']."'>". $row['Emp_FName']."</option>";
+    }
+}
+
+else if($_POST['type']=="tabledata"){
+    $statusCode= $_POST['status_code'];
+    $empCode= $_POST['empCode'];
+
+    if ($empCode=="all"){
+        $sql="select * from HrdMastQry where Status_Code='$statusCode' ";
+    }else {
+        $sql= "select * from HrdMastQry where Status_Code='$statusCode' AND Emp_Code='$empCode'";
+    }
+   
+    $result =  sqlsrv_query($conn,$sql, array(), array( "Scrollable" => 'static' ));
+
+?>
+    <button id="btnExport" onclick="getExcelData();" class="btn btn-success">Export</button>
+    <table role="presentation" id="tblExport" class="table table-striped clearfix">
+<?php
+    echo  " 
+                                
+                                <thead>
+                                <tr>
+                                    <th>S.No.</th>
+                                    <th>Employee Code</th>
+                                    <th>Title</th>
+                                    <th>Employee Name</th>
+                                    <th>Company Name</th>
+                                    <th>Employee Reporting To</th>
+									<th>Employee Functional Reporting To</th>
+									<th>Location</th>
+									<th>Designation</th>
+									<th>Grade</th>
+									<th>Department</th>
+									<th>Marital Status</th>
+									<th>Status</th>
+									<th>Cost Centre</th>
+									<th>Blood Group</th>
+									<th>PAN No</th>
+									<th>Aadhar No</th>
+									<th>Contract Type</th>
+									<th>ESI No</th>
+									<th>PF No</th>
+									<th>UAN No</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                ";
+    $i=1;
+    while($row = sqlsrv_fetch_array($result)) {
+        echo "                  <tr>
+                                    <td>$i</td>
+                                    <td>".$row['Emp_Code']."</td>
+                                    <td>".$row['Title']."</td>
+                                    <td>".$row['EMP_NAME']."</td>
+                                    <td>".$row['COMP_NAME']."</td>
+                                    <td>".$row['MNGR_NAME']."</td>
+                                    <td>".$row['FUNCATONAL_MNGR_NAME']."</td>
+									<td>".$row['LOC_NAME']."</td>
+									<td>".$row['DSG_NAME']."</td>
+									<td>".$row['GRD_NAME']."</td>
+									<td>".$row['FUNCT_NAME']."</td>
+									<td>".$row['MaritalStatus']."</td>
+									<td>".$row['STATUS_NAME']."</td>
+ 									<td>".$row['COST_NAME']."</td>
+									<td>".$row['BloodGroup']."</td>
+									<td>".$row['PANNo']."</td>
+									<td>".$row['AadharNo']."</td>
+									<td>".$row['TYPE_NAME']."</td>
+									<td>".$row['ESINo']."</td>
+									<td>".$row['PFNo']."</td>
+									<td>".$row['UANNo']."</td>
+								</tr>
+            </tbody>";
+        $i++ ;
+      }
+    ?>
+        </table>
+        <?php
+}
+
+?>

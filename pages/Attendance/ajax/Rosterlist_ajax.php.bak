@@ -1,0 +1,148 @@
+<?php
+include('../../db_conn.php');
+include('../../configdata.php');
+@session_start();
+$data=$_POST['data'];
+
+ $sql="Select * from hrdmastQry";
+
+$datalevel =  $_POST['data'];
+
+//print_r($datalevel[0]['children'][0]['id']);
+
+$datalevel =newdatawork($datalevel);
+
+
+
+$sql.=" where ";
+for ($i=0;$i<count($datalevel);$i++){
+    if($datalevel[$i]['text']=="Business Unit"){
+        for($b=0;$b<count($datalevel[$i]['children']);$b++) {
+            $sql .= " Busscode='" . $datalevel[$i]['children'][$b]['id']."'";
+            if($b<count($datalevel[$i]['children'])-1){
+                $sql.= " or ";
+            }
+        }
+        $sql .= " and ";
+    }
+    if($datalevel[$i]['text']=="Location"){
+
+        for($l=0;$l<count($datalevel[$i]['children']);$l++) {
+            $sql .= " loc_Code='" . $datalevel[$i]['children'][$l]['id']."'";
+            if($l<count($datalevel[$i]['children'])-1){
+                $sql.= " or ";
+            }
+        }
+        $sql.= " and ";
+    }
+
+    if($datalevel[$i]['text']=="Working Location"){
+
+        for($wl=0;$wl<count($datalevel[$i]['children']);$wl++) {
+            $sql .= " WLOC_code='" . $datalevel[$i]['children'][$wl]['id']."'";
+            if($wl<count($datalevel[$i]['children'])-1){
+                $sql.= " or ";
+            }
+        }
+        $sql.= " and ";
+    }
+    if($datalevel[$i]['text']=="Function"){
+
+        for($f=0;$f<count($datalevel[$i]['children']);$f++) {
+            $sql .= " FUNCT_code='" . $datalevel[$i]['children'][$f]['id']."'";
+            if($f<count($datalevel[$i]['children'])-1){
+                $sql.= " or ";
+            }
+        }
+        $sql.= " and ";
+    }
+    if($datalevel[$i]['text']=="Sub Function"){
+
+        for($sf=0;$sf<count($datalevel[$i]['children']);$sf++) {
+            $sql .= " SFUNCT_code='" . $datalevel[$i]['children'][$sf]['id']."'";
+            if($sf<count($datalevel[$i]['children'])-1){
+                $sql.= " or ";
+            }
+        }
+        $sql.= " and ";
+    }
+    if($datalevel[$i]['text']=="Grade"){
+
+        for($g=0;$g<count($datalevel[$i]['children']);$g++) {
+            $sql .= " GRD_code='" . $datalevel[$i]['children'][$g]['id']."'";
+            if($g<count($datalevel[$i]['children'])-1){
+                $sql.= " or ";
+            }
+        }
+        $sql.= " and ";
+    }
+    if($datalevel[$i]['text']=="Employee Type"){
+
+        for($et=0;$et<count($datalevel[$i]['children']);$et++) {
+            $sql .= " TYPE_code='" . $datalevel[$i]['children'][$et]['id']."'";
+            if($et<count($datalevel[$i]['children'])-1){
+                $sql.= " or ";
+            }
+        }
+        $sql.= " and ";
+    }
+
+    if($datalevel[$i]['text']=="Process"){
+
+        for($pr=0;$pr<count($datalevel[$i]['children']);$pr++) {
+            $sql .= " PROC_code='" . $datalevel[$i]['children'][$pr]['id']."'";
+            if($pr<count($datalevel[$i]['children'])-1){
+                $sql.= " or ";
+            }
+        }
+        $sql.= " and ";
+    }
+
+}
+
+    $sql.="Status_Code='01'";
+    //echo $sql;
+    $result = query($query,$sql,$pa,$opt,$ms_db);
+    if ($num($result) > 0) {
+      $list="";         
+      while($row = $fetch($result)) {
+          $name = $row['EMP_NAME'];
+        $list.= "<option value=" . $row['Emp_Code']. ">" . $name . "</option>";
+      }
+
+    }
+else{
+    $list=2 ;
+}
+
+echo $list;
+
+function newdatawork($data){
+
+    $newArray = array();
+    $y = 0;
+    for($i = 0; $i < count($data); $i++){
+        if(@array_key_exists('state',$data[$i])  && count($data[$i]['state']) > 0 && $data[$i]['state']['selected']=="show"){
+            $newArray[$y]['text'] = $data[$i]['text'];
+            //$newArray[$y]['count']=count($data);
+
+            if(array_key_exists('children',$data[$i]) && count($data[$i]['children']) > 0){
+                for($j=0;$j< count($data[$i]['children']) ;$j++ ) {
+
+                    if ($data[$i]['children'][$j]['state']['selected']=='show') {  
+                        $newArray[$y]['children'][]['id'] = $data[$i]['children'][$j]['id'];
+                        //$newArray[$y]['children'][]['text'] = $data[$i]['children'][$j]['text'];
+
+                        //$newArray[$y]['children'][]['count'] = count($data[$i]['children']);
+                    }
+
+                }
+            }
+            $y++;
+        }
+
+    }
+    return $newArray;
+}
+
+?>

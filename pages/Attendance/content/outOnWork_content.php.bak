@@ -1,0 +1,239 @@
+<div class="page-content-wrapper" xmlns="http://www.w3.org/1999/html">
+    <div class="page-content cus-light-grey">
+
+        <!-- BEGIN PAGE CONTENT-->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="tabbable tabbable-custom tabbable-noborder tabbable-reversed">
+
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="tab_0">
+                            <div class="portlet box blue">
+                                <div class="portlet-title">
+                                    <div class="caption">
+                                        <i class="fa fa-gift"></i>Apply For OD
+                                    </div>
+                                    <div class="tools">
+                                        <a href="javascript:;" class="collapse">
+                                        </a>
+                                        <a href="#portlet-config" data-toggle="modal" class="config">
+                                        </a>
+                                        <a href="javascript:;" class="reload">
+                                        </a>
+                                        <a href="javascript:;" class="remove">
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="portlet-body form">
+                                    <!-- BEGIN FORM-->
+                                    <form action="#" class="form-horizontal" id="outWorkForm">
+                                        <div class="form-body">
+                                            <div class="form-group">
+                                                <label class="col-md-1 control-label">From</label>
+                                                <div class="col-md-3">
+                                                    <input type="text" class="form-control" name="fromDate" id="fromDate" placeholder="dd/mm/yy">
+                                                </div>
+                                                <div style="display:none;" id="multipleDate">
+                                                    <label class="col-md-1 control-label">To</label>
+                                                    <div class="col-md-3">
+                                                    <input type="text" class="form-control" name="toDate" id="toDate" placeholder="dd/mm/yy">
+                                                        <input type="hidden" id="hidd_todate" value="0">
+                                                    </div>
+                                                </div>
+                                                <label class="col-md-3 control-label" id="multiple" style="color: #b2c0d8" onclick="selectToDate();">
+                                                    (I want to select multiple date)
+                                                </label>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-md-2 control-label">
+                                                    Select Timing
+                                                </label>
+                                                <div class="col-md-4" >
+                                                    <!-- <div class="input-group">
+                                                    <?php $sql="Select * from LOVMast Where LOV_Field='natureOfWorkCause'";
+                                                    $result = query($query,$sql,$pa,$opt,$ms_db);
+                                                    while($row = $fetch($result)) {
+                                                    ?>
+                                                        <label>
+                                                        <input type="radio" class="icheck" name="natureofworkcause1" id="natureofworkcause1" onchange="selecttime(this.value);" value="<?php echo $row['LOV_Value'];?>" data-radio="iradio_flat-grey"> <?php echo $row['LOV_Text'];?>
+                                                        </label>
+                                                    <?php } ?>
+                                                    </div> -->
+                                                    <select class="form-control input-medium" name="natureofworkcause1" id="natureofworkcause1" onchange="selecttime(this.value);">
+                                                    <option value="">Select</option>
+                                                    <?php $sql="Select * from LOVMast Where LOV_Field='natureOfWorkCause'";
+                                                    $result = query($query,$sql,$pa,$opt,$ms_db);
+                                                    while($row = $fetch($result)) {
+                                                    ?>
+                                                        <option value="<?php echo $row['LOV_Value'];?>">
+                                                        <?php echo $row['LOV_Text'];?>
+                                                        </option>
+                                                    <?php } ?>
+                                                    </select>
+                                                </div>
+                                                <div id="timemanagement1" class="col-md-3" style="top: 0px; display: none;">
+                                                    <input type="hidden" id="hidd_intime" value="0">
+                                                    <label class="col-md-2">In HH</label>
+                                                      <select class="col-md-3" id="inHour" style="padding-left:0px !important;">
+                                                          <option value="00">00</option>
+                                                          <option value="01">01</option>
+                                                          <option value="02">02</option>
+                                                          <option value="03">03</option>
+                                                          <option value="04">04</option>
+                                                          <option value="05">05</option>
+                                                          <option value="06">06</option>
+                                                          <option value="07">07</option>
+                                                          <option value="08">08</option>
+                                                          <option value="09">09</option>
+                                                          <option value="10">10</option>
+                                                          <option value="11">11</option>
+                                                          <option value="12">12</option>
+                                                      </select>
+
+                                                    <label class="col-md-2">In MM</label>
+                                                        <select class="col-md-3" id="inMinute" style="padding-left:0px !important;">
+                        
+                                                          <?php 
+                                                            for($i=0;$i<60;$i++){
+
+                                                                if(strlen($i)==1){
+                                                                    $t="0".$i;
+                                                                }else{
+                                                                    $t=$i;
+                                                                }
+
+                                                            echo'<option value="'.$t.'">'.$t.'</option>';
+                                                        }
+                                                            ?>
+                                                        </select>
+                                                    <div class="col-md-2">
+                                                    <label >
+                                                        <input type="radio" class="icheck"  name="inap"  value="AM" >AM
+                                                    </label>
+                                                    <label>
+                                                        <input type="radio"  class="icheck" name="inap"  value="PM" >PM
+                                                    </label>
+                                                    </div>
+                                                </div>
+
+                                                <div id="timemanagement2" class="col-md-3" style="top: 0px; display: none;">
+                                                    <input type="hidden" id="hidd_outtime" value="0">
+                                                        <label class="col-md-2">Out HH</label>
+                                                        <select class="col-md-3" id="outHour" style="padding-left:0px !important;">
+                                                            <option value="00">00</option>
+                                                            <option value="01">01</option>
+                                                            <option value="02">02</option>
+                                                            <option value="03">03</option>
+                                                            <option value="04">04</option>
+                                                            <option value="05">05</option>
+                                                            <option value="06">06</option>
+                                                            <option value="07">07</option>
+                                                            <option value="08">08</option>
+                                                            <option value="09">09</option>
+                                                            <option value="10">10</option>
+                                                            <option value="11">11</option>
+                                                            <option value="12">12</option>
+                                                        </select>
+
+                                                        <label class="col-md-2">Out MM</label>
+                                                        <select class="col-md-3" id="outMinute" style="padding-left:0px !important;">
+                                                            <?php 
+                                                            for($i=0;$i<60;$i++){
+
+                                                                if(strlen($i)==1){
+                                                                    $t="0".$i;
+                                                                }else{
+                                                                    $t=$i;
+                                                                }
+
+                                                            echo'<option value="'.$t.'">'.$t.'</option>';
+                                                        }
+                                                            ?>
+                                                            
+                                                        </select>
+                                                        <div class="col-md-2">
+                                                        <label >
+                                                            <input type="radio" class="icheck" name="outap"  value="AM" >AM
+                                                        </label>
+                                                        <label>
+                                                            <input type="radio" class="icheck" name="outap"  value="PM" >PM
+                                                        </label>
+                                                        </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-md-2 control-label">Nature Of Work</label>
+                                                <div class="col-md-4">
+                                                    <div class="input-group">
+                                                        <select name="natureofwork" id="natureofwork" class="form-control input-medium">
+                                                            <option value=""></option>
+                                                            <?php $sql1="Select * from LOVMast Where LOV_Field='natureOfWork'";
+                                                            $result1 = query($query,$sql1,$pa,$opt,$ms_db);
+                                                            if ($num($result1) > 0) {
+                                                                $list="";
+                                                                while($row = $fetch($result1)) {
+                                                                    $list.= "<option value=" . $row['LOV_Value']. ">" . $row['LOV_Text']. "</option>";
+                                                                }
+                                                                echo $list;
+                                                            }
+                                                            ?>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group" id="excludecheck" style="display: none;">
+                                                <label class="col-md-2 control-label"></label>
+                                                <div class="col-md-4">
+                                                    <div class="input-group">
+                                                        <div class="icheck-list">
+                                                            <label>
+                                                                <input type="checkbox"  name="weeklyoff1" id="weeklyoff"  value="yes" class="icheck" data-checkbox="icheckbox_flat-grey"> Exclude Weekly offs and Holiday
+                                                                <input type="hidden" id="hidd_Weekly" value="0">
+                                                            </label>
+                                                            <span id="warningExclude" style="color:red;"></span>
+                                                            <label>
+                                                                <input type="checkbox"  name="leavedays1" id="leavedays"  value="yes" class="icheck" data-checkbox="icheckbox_flat-grey">Exclude Leave Days
+                                                                <input type="hidden" id="hidd_Leave" value="0">
+                                                            </label>
+                                                        </div>
+                                                     </div>
+                                                 </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-md-2 control-label">Reason</label>
+                                                <div class="col-md-4">
+                                                <textarea name="reason" id="reason" class="form-control"></textarea>
+                                                    <!-- <input type="text" name="reason" id="reason" class="form-control"> -->
+                                                </div>
+                                            </div>
+                                            
+
+                                            <div class="form-group">
+                                               <div class="col-md-9">
+                                                    Approve By &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <img class="" src="../Profile/upload_images/<?php echo $data1['EmpImage'];?>" style="width: 5%;height: 5%;">
+                                                    <?php echo $data1['EMP_NAME'];?>, <?php echo $data1['DSG_NAME'];?>, <?php echo $data1['MailingAddress'];?>
+                                                </div>
+                                            </div>
+
+                                        <div class="form-actions">
+                                            <div class="row">
+                                                <div class="col-md-offset-3 col-md-9">
+                                                    <button type="button" onclick="submitOutOnWork('<?php echo $code; ?>','<?php echo $mngrcode;?>');" class="btn btn-circle blue">Submit</button>
+                                                    <button type="button" class="btn btn-circle default">Cancel</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <!-- END FORM-->
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>

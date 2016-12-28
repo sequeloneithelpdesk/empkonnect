@@ -1,0 +1,233 @@
+{
+	"menuitem":[
+
+	{
+		"id":"1",
+		"text":"Home",
+		"icon":"icon-home",
+		"children":[
+		],
+		"href":"index",
+		"show":"true"
+
+	},
+	{
+		"id":"2",
+		"text":"Manage Company",
+		"icon":"icon-home",
+		"children":[
+						{
+							"id":"21",
+							"text":"Add Company",
+							"icon":"icon-home",
+							"href":"addcomp",
+							"children":[]
+						},
+						
+						{
+							"id":"22",
+							"text":"View Company",
+							"icon":"icon-home",
+							"href":"viewcomp",
+							"children":[]
+						}
+
+		],
+		"href":"javascript:;"
+		
+	},
+	{
+		"id":"3",
+		"text":"Orgnizational Structures",
+		"icon":"icon-home",
+		"children":[
+					{
+						"id":"31",
+						"text":"Manage Location",
+						"icon":"icon-home",
+						"href":"javascript:;",
+						"children":[
+											{
+												"id":"311",
+											"text":"Add Location",
+											"icon":"icon-home",
+											"href":"addloc",
+											"children":[]
+												},
+												{
+												"id":"312",
+											"text":"View Location",
+											"icon":"icon-home",
+											"href":"viewloc",
+											"children":[]
+												}
+							]
+					},
+					{
+						"id":"32",
+						"text":"Manage Business Unit",
+						"icon":"icon-home",
+						"href":"javascript:;",
+						"children":[
+											   {
+												"id":"321",
+											"text":"Add Business Unit",
+											"icon":"icon-home",
+											"href":"addbusiness",
+											"children":[]
+												},
+												{
+												"id":"322",
+											"text":"View Business Unit",
+											"icon":"icon-home",
+											"href":"viewbusiness",
+											"children":[]
+												}
+							]
+					},{
+						"id":"33",
+						"text":"Manage Employee Type",
+						"icon":"icon-home",
+						"href":"javascript:;",
+						"children":[
+											{
+												"id":"331",
+											"text":"Add Employee Type",
+											"icon":"icon-home",
+											"href":"addloc",
+											"children":[]
+												},
+												{
+												"id":"332",
+											"text":"View Employee Type",
+											"icon":"icon-home",
+											"href":"viewloc",
+											"children":[]
+												}
+							]
+					},
+					{
+						"id":"34",
+						"text":"Manage Process",
+						"icon":"icon-home",
+						"href":"javascript:;",
+						"children":[
+											{
+												"id":"341",
+											"text":"Add Process",
+											"icon":"icon-home",
+											"href":"addbusiness",
+											"children":[]
+												},
+												{
+												"id":"342",
+											"text":"View Process",
+											"icon":"icon-home",
+											"href":"viewbusiness",
+											"children":[]
+												}
+							]
+					},{
+						"id":"35",
+						"text":"Manage Emp. Master",
+						"icon":"icon-home",
+						"href":"javascript:;",
+						"children":[
+											{
+												"id":"351",
+											"text":"Add Emp. Master",
+											"icon":"icon-home",
+											"href":"addloc",
+											"children":[]
+												},
+												{
+												"id":"352",
+											"text":"View Emp. Master",
+											"icon":"icon-home",
+											"href":"viewloc",
+											"children":[]
+												}
+							]
+					}
+
+		],
+		"href":"javascript:;"
+		
+	},
+	{
+		"id":"4",
+		"text":"User Management",
+		"icon":"icon-home",
+		"children":[
+						{
+							"id":"41",
+							"text":"Manage Users",
+							"icon":"icon-home",
+							"href":"addcomp",
+							"children":[
+										{
+										"id":"411",
+										"text":"Add Users",
+										"icon":"icon-home",
+										"href":"addcomp",
+										"children":[]
+									},
+									{
+										"id":"412",
+										"text":"View Users",
+										"icon":"icon-home",
+										"href":"addcomp",
+										"children":[]
+									}
+						]
+						},
+						{
+							"id":"42",
+							"text":"Manage Roles",
+							"icon":"icon-home",
+							"href":"viewcomp",
+							"children":[
+							        {
+										"id":"421",
+										"text":"Add Roles",
+										"icon":"icon-home",
+										"href":"addcomp",
+										"children":[]
+									},
+									{
+										"id":"422",
+										"text":"View Roles",
+										"icon":"icon-home",
+										"href":"addcomp",
+										"children":[]
+									}]
+						},
+						{
+							"id":"43",
+							"text":"Manage Menus",
+							"icon":"icon-home",
+							"href":"viewcomp",
+							"children":[
+							        {
+										"id":"431",
+										"text":"Add Menus",
+										"icon":"icon-home",
+										"href":"addcomp",
+										"children":[]
+									},
+									{
+										"id":"432",
+										"text":"View Menus",
+										"icon":"icon-home",
+										"href":"addcomp",
+										"children":[]
+									}]
+						}
+
+		],
+		"href":"javascript:;"
+		
+	} 
+			]
+
+		}

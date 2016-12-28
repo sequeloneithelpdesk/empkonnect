@@ -1,0 +1,299 @@
+<?php 
+include ('../db_conn.php');
+include ('../configdata.php');
+include ('Events/public_holidays.php');
+include ('Events/weekly_off.php');
+include ('Events/emp_attendance.php');
+include ('Events/emp_approved_leave.php');
+
+
+if($_GET['type']=='myNewEvents'){
+	
+	date_default_timezone_set("Asia/Kolkata");
+	$current_date		= strtotime(date("Y-m-d"));
+	$cmonth 			= date('m', $current_date);
+	$cdate       		= date('d', $current_date);
+
+	$request_emp_code 	= $_GET['emp_code'];
+	$start = explode('-', $_POST['start']);
+	$end   = explode('-', $_POST['end']);
+	
+	if($start[2]==1){
+	}else{
+		if($start[1]==12){
+			$start[1]=1;
+		}else if($start[1]==11){
+			$start[1] = $start[1]+1;
+		}else{
+			$start[1] = $start[1]+1;
+		}
+	}
+	$emp_code 	= $request_emp_code;
+	$month 		= sprintf("%02d", $start[1]);
+	$year 		= date('Y', $current_date);
+	
+
+	
+
+	global $query,$pa,$opt,$ms_db,$num,$fetch;
+	if($month==$cmonth){
+		$daysInMonth 	= cal_days_in_month(0, $month, $year);
+		$firstDate 		= $year.'-'.$month.'-01';
+		$lastDate 		= $year.'-'.$month.'-'.$cdate;
+		$firstDateNum 	= 01;
+		$lastDateNum 	= $cdate;
+
+	}else if($month<$cmonth){
+		$sqlq0="SELECT DOJ FROM HrdMastQry WHERE EMP_CODE='".$emp_code."'";
+		$resultq0=query($query,$sqlq0,$pa,$opt,$ms_db);
+		if($num($resultq0)){
+			while ($rowq0 = $fetch($resultq0)){
+				$dateofjoining = date_format($rowq0['DOJ'],'Y-m-d');
+			} 
+		}else{
+			$dateofjoining = "2016-04-14";
+		}
+		$datetime = explode('-', $dateofjoining);
+		if($datetime[1]==$month){
+			$daysInMonth 	= cal_days_in_month(0, $month, $year);
+			$firstDate 		= $year.'-'.$month.'-'.$datetime[2];
+			$lastDate 		= $year.'-'.$month.'-'.$daysInMonth;
+			$firstDateNum 	= $datetime[2];
+			$lastDateNum 	= $daysInMonth;
+		}else{
+			$daysInMonth 	= cal_days_in_month(0, $month, $year);
+			$firstDate 		= $year.'-'.$month.'-01';
+			$lastDate 		= $year.'-'.$month.'-'.$daysInMonth;
+			$firstDateNum 	= 01;
+			$lastDateNum 	= $daysInMonth;
+		}
+	}else{
+		$daysInMonth 	= cal_days_in_month(0, $month, $year);
+		$firstDate 		= $year.'-'.$month.'-01';
+		$lastDate 		= $year.'-'.$month.'-'.$daysInMonth;
+		$firstDateNum 	= 01;
+		$lastDateNum 	= $daysInMonth;
+	}
+
+	
+
+	$result 	= array();
+	
+
+	
+
+	if($month==$cmonth){
+		for($b=$firstDateNum;$b<=$lastDateNum;$b++){
+			$result[ltrim($b,'0')] = array('type'=>'attendance_empty','title'=>'Absent','formattedDate'=>date('l, d M Y',strtotime($year.'-'.$cmonth.'-'.sprintf("%02d",$b))),'presetStatus'=>'Absent','presetShortStatus'=>'A','start'=>$year.'-'.$cmonth.'-'.sprintf("%02d",$b),'className'=>['red_over circle-legend'],'birthdate'=>array(),'annidate'=>array(),'startTime'=>'','endTime'=>'','allDay'=>true);
+		}
+
+	}else if($month<$cmonth){
+		for($b=$firstDateNum;$b<=$daysInMonth;$b++){
+			$result[ltrim($b,'0')] = array('type'=>'attendance_empty','title'=>'Absent','formattedDate'=>date('l, d M Y',strtotime($year.'-'.$month.'-'.sprintf("%02d",$b))),'presetStatus'=>'Absent','presetShortStatus'=>'A','start'=>$year.'-'.$month.'-'.sprintf("%02d",$b),'className'=>['red_over circle-legend '],'birthdate'=>array(),'annidate'=>array(),'startTime'=>'','endTime'=>'','allDay'=>true);
+		}
+	}else{
+		for($b=$firstDateNum;$b<=$daysInMonth;$b++){
+			$result[ltrim($b,'0')] = array('type'=>'attendance_empty','title'=>'Absent','formattedDate'=>date('l, d M Y',strtotime($year.'-'.$month.'-'.sprintf("%02d",$b))),'presetStatus'=>'Absent','presetShortStatus'=>'A','start'=>$year.'-'.$month.'-'.sprintf("%02d",$b),'className'=>['red_over circle-legend'],'birthdate'=>array(),'annidate'=>array(),'startTime'=>'','endTime'=>'','allDay'=>true);
+		}
+	}
+	
+	
+	$birthdates 	= getBirthDates($month,$year);
+	$annidates		= getAnniDates($month,$year);
+	$holidays 		= getHolidays($month,$year);
+	$weeklyOffs 	= getWeeklyOff($month,$year,$emp_code);
+	$attendances 	= getAttendance($month,$year,$emp_code);
+	$leaves 		= getLeaves($month,$year,$emp_code);
+	$attregularised	= getAttendanceRegularised($month,$year,$emp_code);
+
+
+	// Step 1: --- Unset weekly offs if they are on holiday's date-----------------
+	if($holidays != null && $weeklyOffs != null){
+		for($i=0;$i<count($holidays);$i++){
+			for($j=0;$j<count($weeklyOffs);$j++){
+				if(in_array($holidays[$i]['start'],$weeklyOffs[$j],true)){
+					unset($weeklyOffs[$j]);
+					$weeklyOffs = array_values($weeklyOffs);
+				}
+				
+			}
+		}
+	}
+	//Step 2: --- Merge attendances and holidays After Step 1: --------------------
+	if($attendances != null && $holidays !=null || count($holidays) !=0){
+		for($k=0;$k<count($attendances);$k++){
+			for($m=0;$m<count($holidays);$m++){
+				if(in_array($attendances[$k]['start'],$holidays[$m],true)){
+					if($attendances[$k]['presetStatus']=='Present'){
+						$attendances[$k]['className']=['green_over circle-legend'];
+					}else if($attendances[$k]['presetStatus']=='Half Day'){
+						$attendances[$k]['className']=['yellow_over circle-legend'];
+					}else{
+						$attendances[$k]['className']=['red_over circle-legend'];
+					}
+					unset($holidays[$m]);
+					$holidays = array_values($holidays);
+				}
+				
+			}
+
+		}
+	}
+
+	//Step 2: --- Merge attendances and left-weeklyoffs After Step 1: -------------
+	if($attendances != null && $weeklyOffs !=null || count($weeklyOffs) !=0){
+		for($p=0;$p<count($attendances);$p++){
+			for($l=0;$l<count($weeklyOffs);$l++){
+				if(in_array($attendances[$p]['start'],$weeklyOffs[$l],true)){
+					if($attendances[$p]['presetStatus']=='Present'){
+						$attendances[$p]['className']=['green_over circle-legend'];
+					}else if($attendances[$p]['presetStatus']=='Half Day'){
+						$attendances[$p]['className']=['yellow_over circle-legend'];
+					}else if($attendances[$p]['presetStatus']=='Absent'){
+						$attendances[$p]['className']=['red_over circle-legend'];
+					}else{
+
+					}
+					unset($weeklyOffs[$l]);
+					$weeklyOffs = array_values($weeklyOffs);
+				}
+				
+			}
+		}
+	}
+
+
+	//Step 3: --- Merge All dates with Emp Birthdays-------------------------------
+	if($attendances!=null && $birthdates !=null || count($birthdates) !=0){
+		for($k=0;$k<count($attendances);$k++){
+			for($m=0;$m<count($birthdates);$m++){
+				if(in_array($attendances[$k]['start'],$birthdates[$m],true)){
+					array_push($attendances[$k]['birthdate'],$birthdates[$m]['bemp_record']);
+					unset($birthdates[$m]);
+					$birthdates = array_values($birthdates);
+					$m=0;
+					goto end;
+				}
+				end:
+			}
+		}
+	}
+
+
+	if($attendances!=null && $birthdates !=null || count($birthdates) !=0){
+		for($k=1;$k<=count($result);$k++){
+			for($m=0;$m<count($birthdates);$m++){
+				if(in_array($result[$k]['start'],$birthdates[$m],true)){
+					array_push($result[$k]['birthdate'],$birthdates[$m]['bemp_record']);
+					unset($birthdates[$m]);
+					$birthdates = array_values($birthdates);
+					$m=0;
+					goto end2;
+				}
+				end2:
+			}
+		}
+	}
+	
+	//Step 4: --- Merge All dates with Emp Anniversaries---------------------------
+	if($attendances!=null && $annidates !=null || count($annidates) !=0){
+		for($k=0;$k<count($attendances);$k++){
+			for($m=0;$m<count($annidates);$m++){
+				if(in_array($attendances[$k]['start'],$annidates[$m],true)){
+					array_push($attendances[$k]['annidate'],$annidates[$m]['bemp_record']);
+					unset($annidates[$m]);
+					$annidates = array_values($annidates);
+					$m=0;
+					goto end1;
+				}
+				end1:
+			}
+		}
+	}
+
+
+	if($attendances!=null && $birthdates !=null || count($birthdates) !=0){
+		for($k=1;$k<=count($result);$k++){
+			for($m=0;$m<count($birthdates);$m++){
+				if(in_array($result[$k]['start'],$birthdates[$m],true)){
+					array_push($result[$k]['birthdate'],$birthdates[$m]['bemp_record']);
+					unset($birthdates[$m]);
+					$birthdates = array_values($birthdates);
+					$m=0;
+					goto end3;
+				}
+				end3:
+			}
+		}
+	}
+
+
+
+	for($a=0;$a<count($attendances);$a++){
+		$result[$attendances[$a]['num']] = $attendances[$a];
+	}
+
+	for($iii=0;$iii<count($weeklyOffs);$iii++){
+		$date00 = explode('-', $weeklyOffs[$iii]['start']);
+		unset($result[ltrim($date00[2],'0')]);
+	}
+
+	for($iiii=0;$iiii<count($holidays);$iiii++){
+		$date001 = explode('-', $holidays[$iiii]['start']);
+		unset($result[ltrim($date001[2],'0')]);
+	}
+	for($iiiii=0;$iiiii<count($leaves);$iiiii++){
+		$date0001 = explode('-', $leaves[$iiiii]['start']);
+
+		unset($result[ltrim($date0001[2],'0')]);
+	}
+
+	for($iiiiii=0;$iiiiii<count($attregularised);$iiiiii++){
+		$date00001 = explode('-', $attregularised[$iiiiii]['start']);
+
+		unset($result[ltrim($date00001[2],'0')]);
+	}
+
+
+	if(!empty($holidays) && !empty($weeklyOffs) && !empty($attendances)){
+		//var_dump("case 0");die;
+		$mydata = array_merge($holidays,$weeklyOffs,$result,$leaves,$attregularised);
+ 		echo json_encode($mydata,true);
+
+	}else if(!empty($holidays) && !empty($weeklyOffs) && !empty($result) && empty($attendances)){
+		//var_dump("case 1");die;
+		$mydata = array_merge($holidays,$weeklyOffs,$result,$leaves,$attregularised);
+ 		echo json_encode($mydata,true);
+
+	}else if(!empty($holidays) && !empty($weeklyOffs) && empty($attendances)){
+		//var_dump("case 2");die;
+		$mydata = array_merge($holidays,$weeklyOffs,$leaves,$attregularised);
+ 		echo json_encode($mydata,true);
+
+	}else if(!empty($holidays) && empty($weeklyOffs) && !empty($attendances)){
+		//var_dump("case 3");die;
+		$mydata = array_merge($holidays,$result,$leaves,$attregularised);
+ 		echo json_encode($mydata,true);
+
+	}else if(!empty($holidays) && empty($weeklyOffs) && empty($attendances)){
+		//var_dump("case 4");die;
+		$mydata = array_merge($holidays,$leaves,$attregularised);
+ 		echo json_encode($mydata,true);
+
+	}else if(empty($holidays) && empty($weeklyOffs) && !empty($attendances)){
+		//var_dump("case 5");die;
+		$mydata = array_merge($result,$leaves,$attregularised);
+ 		echo json_encode($mydata,true);
+
+	}else if(empty($holidays) && !empty($weeklyOffs) && empty($attendances)){
+		//var_dump("case 6");die;
+		$mydata = array_merge($weeklyOffs,$leaves,$attregularised);
+ 		echo json_encode($mydata,true);
+	}else{
+		//var_dump("case 7");die;
+		echo '[]';
+	}
+
+}
+
+?>
